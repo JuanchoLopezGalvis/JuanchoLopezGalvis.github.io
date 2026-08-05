@@ -1,0 +1,112 @@
+---
+import { PORTFOLIO_DATA } from "../data/portfolio";
+
+const { developer } = PORTFOLIO_DATA;
+---
+
+<div
+  class="font-mono text-xs md:text-sm my-4 p-4 border border-[var(--border-color)] bg-[var(--bg-card)] rounded-none relative overflow-hidden"
+>
+  <div
+    class="absolute top-0 right-0 px-2 py-1 bg-[var(--border-color)] text-[var(--fg-dim)] text-[10px] uppercase font-bold tracking-widest"
+  >
+    SYSTEM INFO v2.4
+  </div>
+
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+    <div
+      class="lg:col-span-5 text-[var(--fg-bright)] overflow-x-auto whitespace-pre font-bold select-none leading-none text-[11px] md:text-xs"
+    >
+      {
+        `
+    _    _     _______  __
+   / \\  | |   | ____\\ \\/ /
+  / _ \\ | |   |  _|  \\  / 
+ / ___ \\| |___| |___ /  \\ 
+/_/   \\_\\_____|_____/_/\\_\\
+  ____  _______   ______   ___  _   _ 
+ |  _ \\| ____\\ \\ / / ___| / _ \\| \\ | |
+ | | | |  _|  \\ V /\\___ \\| | | |  \\| |
+ | |_| | |___  | |  ___) | |_| | |\\  |
+ |____/|_____| |_| |____/ \\___/|_| \\_|
+`
+      }
+      <div
+        class="mt-5 ml-3 text-[var(--fg-dim)] text-[10px] flex items-center gap-2.5 select-none"
+      >
+        <span
+          class="relative flex h-2.5 w-2.5 shrink-0 items-center justify-center"
+        >
+          <span
+            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"
+          ></span>
+          <span
+            class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"
+          ></span>
+        </span>
+        <span class="font-bold tracking-wider text-emerald-400"
+          >STATUS: OPEN FOR COLLABORATIONS</span
+        >
+      </div>
+    </div>
+
+    <div
+      class="lg:col-span-7 flex flex-col justify-center space-y-1.5 border-t lg:border-t-0 lg:border-l border-[var(--border-color)] pt-4 lg:pt-0 lg:pl-6"
+    >
+      <div
+        class="flex items-center gap-2 pb-2 border-b border-[var(--border-color)]"
+      >
+        <span class="text-[var(--fg-bright)] font-bold">{developer.alias}</span>
+        <span class="text-[var(--fg-dim)]">-------------------</span>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-1 text-xs">
+        <div>
+          <span class="text-[var(--fg-bright)] font-bold">OS:</span>
+          <span class="text-[var(--fg-main)]">{developer.specs.OS}</span>
+        </div>
+        <div>
+          <span class="text-[var(--fg-bright)] font-bold">Kernel:</span>
+          <span class="text-[var(--fg-main)]">{developer.specs.Kernel}</span>
+        </div>
+        <div>
+          <span class="text-[var(--fg-bright)] font-bold">Uptime:</span>
+          <span class="text-[var(--fg-main)]">{developer.specs.Uptime}</span>
+        </div>
+        <div>
+          <span class="text-[var(--fg-bright)] font-bold">Shell:</span>
+          <span class="text-[var(--fg-main)]">{developer.specs.Shell}</span>
+        </div>
+        <div>
+          <span class="text-[var(--fg-bright)] font-bold">WM/DE:</span>
+          <span class="text-[var(--fg-main)]">{developer.specs.WM}</span>
+        </div>
+        <div>
+          <span class="text-[var(--fg-bright)] font-bold">Editor:</span>
+          <span class="text-[var(--fg-main)]">{developer.specs.Editor}</span>
+        </div>
+        <div>
+          <span class="text-[var(--fg-bright)] font-bold">CPU:</span>
+          <span class="text-[var(--fg-main)]">{developer.specs.CPU}</span>
+        </div>
+        <div>
+          <span class="text-[var(--fg-bright)] font-bold">Memory:</span>
+          <span class="text-[var(--fg-main)]">{developer.specs.Memory}</span>
+        </div>
+      </div>
+
+      <div class="pt-3 flex items-center gap-1.5">
+        <span class="text-[10px] text-[var(--fg-dim)] mr-2">PALETTE:</span>
+        <span class="w-4 h-4 bg-black inline-block border border-gray-700"
+        ></span>
+        <span class="w-4 h-4 bg-red-600 inline-block"></span>
+        <span class="w-4 h-4 bg-green-500 inline-block"></span>
+        <span class="w-4 h-4 bg-yellow-500 inline-block"></span>
+        <span class="w-4 h-4 bg-blue-500 inline-block"></span>
+        <span class="w-4 h-4 bg-purple-500 inline-block"></span>
+        <span class="w-4 h-4 bg-cyan-400 inline-block"></span>
+        <span class="w-4 h-4 bg-white inline-block"></span>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,379 @@
+---
+import { PORTFOLIO_DATA } from '../data/portfolio';
+---
+
+<div id="view-cli" class="flex flex-col flex-1 font-mono text-xs md:text-sm">
+  <!-- Terminal Welcome Message & Banner -->
+  <div class="mb-4 space-y-1.5 text-[var(--fg-main)]">
+    <div class="text-[var(--accent)] font-bold">
+      WELCOME TO QUANTUM-TUI TERMINAL INTERFACE v5.3.0 (x86_64-apple-darwin)
+    </div>
+    <div class="text-[var(--fg-dim)]">
+      Type <span class="text-[var(--fg-bright)] font-bold">help</span> to view available commands, or click <span class="text-[var(--accent)] cursor-pointer hover:underline" onclick="window.switchTuiMode('gui')">[#] GUI Dashboard</span> for visual mode.
+    </div>
+  </div>
+
+  <!-- Terminal Output Buffer -->
+  <div id="cli-output" class="flex-1 space-y-4 mb-4">
+    <!-- Initial welcome banner output -->
+    <div class="border-l-2 border-[var(--accent)] pl-3 py-1 bg-[var(--bg-card)] text-[var(--fg-main)]">
+      <div class="font-bold text-[var(--fg-bright)]">{PORTFOLIO_DATA.developer.name} - {PORTFOLIO_DATA.developer.title}</div>
+      <div class="text-xs text-[var(--fg-dim)] mt-0.5">{PORTFOLIO_DATA.developer.status}</div>
+      <div class="text-xs text-[var(--accent)] mt-1 font-bold">Type 'about', 'skills', or 'collabs' to explore content.</div>
+    </div>
+  </div>
+
+  <!-- CLI Interactive Input Line -->
+  <div class="flex items-center gap-2 pt-2 border-t border-[var(--border-color)] bg-[var(--bg-main)]">
+    <span class="text-[var(--accent)] font-bold flex items-center gap-1 select-none">
+      <span class="text-emerald-400">guest</span>@<span class="text-[var(--fg-bright)]">quantum-box</span>:<span class="text-cyan-400">~</span>$
+    </span>
+    <div class="relative flex-1 flex items-center">
+      <input
+        id="cli-input"
+        aria-label="Terminal Command Input"
+        type="text"
+        autocomplete="off"
+        spellcheck="false"
+        placeholder="Type 'about', 'skills', or 'collabs'..."
+        class="w-full bg-transparent text-[var(--fg-bright)] font-mono focus:outline-none caret-[var(--accent)] py-1 text-xs md:text-sm"
+      />
+    </div>
+  </div>
+</div>
+
+<script>
+  import { PORTFOLIO_DATA } from '../data/portfolio';
+  import { playKeypressSound, playSuccessSound, playErrorSound, playBeep, toggleSfx } from '../utils/sound';
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const input = document.getElementById('cli-input') as HTMLInputElement;
+    const output = document.getElementById('cli-output');
+    if (!input || !output) return;
+
+    let commandHistory: string[] = [];
+    let historyIndex = -1;
+
+    const availableCommands = PORTFOLIO_DATA.commands.map(c => c.name);
+
+    document.getElementById('view-cli')?.addEventListener('click', () => {
+      input.focus();
+    });
+
+    input.addEventListener('keydown', (e) => {
+      if (e.key !== 'Enter' && e.key !== 'Tab' && e.key !== 'ArrowUp' && e.key !== 'ArrowDown') {
+        playKeypressSound();
+      }
+
+      if (e.key === 'Tab') {
+        e.preventDefault();
+        const current = input.value.trim().toLowerCase();
+        if (!current) return;
+
+        const matches = availableCommands.filter(c => c.startsWith(current));
+        if (matches.length === 1) {
+          input.value = matches[0] + ' ';
+          playBeep(600, 0.04);
+        } else if (matches.length > 1) {
+          appendOutput(`<div class="text-[var(--fg-dim)]">Possible matches: ${matches.join('  ')}</div>`);
+          playBeep(400, 0.04);
+        }
+        return;
+      }
+
+      if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (commandHistory.length === 0) return;
+        if (historyIndex < commandHistory.length - 1) {
+          historyIndex++;
+          input.value = commandHistory[commandHistory.length - 1 - historyIndex];
+        }
+        return;
+      }
+
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        if (historyIndex > 0) {
+          historyIndex--;
+          input.value = commandHistory[commandHistory.length - 1 - historyIndex];
+        } else if (historyIndex === 0) {
+          historyIndex = -1;
+          input.value = '';
+        }
+        return;
+      }
+
+      if (e.key === 'Enter') {
+        const rawCmd = input.value.trim();
+        if (!rawCmd) return;
+
+        commandHistory.push(rawCmd);
+        historyIndex = -1;
+
+        appendEcho(rawCmd);
+        input.value = '';
+
+        processCommand(rawCmd);
+      }
+    });
+
+    function appendEcho(cmd: string) {
+      if (!output) return;
+      const echoDiv = document.createElement('div');
+      echoDiv.className = 'flex items-center gap-2 font-mono text-xs md:text-sm font-bold mt-3';
+      echoDiv.innerHTML = `
+        <span class="text-[var(--accent)]"><span class="text-emerald-400">guest</span>@<span class="text-[var(--fg-bright)]">quantum-box</span>:<span class="text-cyan-400">~</span>$</span>
+        <span class="text-[var(--fg-bright)]">${escapeHtml(cmd)}</span>
+      `;
+      output.appendChild(echoDiv);
+    }
+
+    function appendOutput(html: string) {
+      if (!output) return;
+      const outDiv = document.createElement('div');
+      outDiv.className = 'mt-1 text-xs md:text-sm font-mono leading-relaxed';
+      outDiv.innerHTML = html;
+      output.appendChild(outDiv);
+
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+
+    function processCommand(rawCmd: string) {
+      const parts = rawCmd.split(' ').filter(Boolean);
+      const cmd = parts[0].toLowerCase();
+      const args = parts.slice(1);
+
+      switch (cmd) {
+        case 'help':
+        case 'man':
+          playSuccessSound();
+          renderHelp();
+          break;
+
+        case 'about':
+        case 'bio':
+          playSuccessSound();
+          renderAbout();
+          break;
+
+        case 'skills':
+          playSuccessSound();
+          renderSkills();
+          break;
+
+        case 'collabs':
+        case 'collaborations':
+          playSuccessSound();
+          renderCollabs();
+          break;
+
+        case 'cat':
+          playSuccessSound();
+          if (args[0] === 'bio.txt') renderAbout();
+          else if (args[0] === 'skills.sh') renderSkills();
+          else if (args[0] === 'collabs.md') renderCollabs();
+          else if (args[0] === 'contact.txt') renderContact();
+          else appendOutput(`<div class="text-yellow-400">Usage: cat <bio.txt | skills.sh | collabs.md | contact.txt></div>`);
+          break;
+
+        case 'ls':
+          playSuccessSound();
+          appendOutput(`
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs font-mono py-1">
+              <span class="text-yellow-400 font-bold">📄 bio.txt</span>
+              <span class="text-emerald-400 font-bold">⚙️ skills.sh</span>
+              <span class="text-purple-400 font-bold">🤝 collabs.md</span>
+              <span class="text-red-400 font-bold">✉️ contact.txt</span>
+            </div>
+          `);
+          break;
+
+        case 'neofetch':
+        case 'fetch':
+          playSuccessSound();
+          renderNeofetch();
+          break;
+
+        case 'contact':
+        case 'mail':
+          playSuccessSound();
+          renderContact();
+          break;
+
+        case 'theme':
+          if (args[0]) {
+            const theme = args[0].toLowerCase();
+            if (['green', 'amber', 'cyan', 'dracula', 'mono'].includes(theme)) {
+              document.documentElement.setAttribute('data-theme', theme);
+              localStorage.setItem('tui_theme', theme);
+              const selectEl = document.getElementById('theme-select') as HTMLSelectElement;
+              if (selectEl) selectEl.value = theme;
+              playSuccessSound();
+              appendOutput(`<div class="text-emerald-400 font-bold">Theme set to [${theme.toUpperCase()}].</div>`);
+            } else {
+              playErrorSound();
+              appendOutput(`<div class="text-red-400">Invalid theme. Options: green | amber | cyan | dracula | mono</div>`);
+            }
+          } else {
+            appendOutput(`<div class="text-yellow-400">Usage: theme <green|amber|cyan|dracula|mono></div>`);
+          }
+          break;
+
+        case 'matrix':
+          playSuccessSound();
+          const win = window as unknown as { toggleMatrix?: (f?: boolean) => void };
+          if (win.toggleMatrix) win.toggleMatrix(true);
+          appendOutput(`<div class="text-emerald-400 font-bold">Matrix rain canvas enabled. Press [ESC] to exit.</div>`);
+          break;
+
+        case 'crt':
+          document.getElementById('toggle-crt-btn')?.click();
+          appendOutput(`<div class="text-cyan-400">Toggled CRT scanlines overlay.</div>`);
+          break;
+
+        case 'sfx':
+          const enabled = toggleSfx();
+          appendOutput(`<div class="text-cyan-400">SFX Sound feedback: ${enabled ? 'ENABLED 🔊' : 'MUTED 🔇'}</div>`);
+          break;
+
+        case 'clear':
+        case 'cls':
+          if (output) output.innerHTML = '';
+          playBeep(800, 0.03);
+          break;
+
+        case 'gui':
+          const switchFn = (window as unknown as { switchTuiMode?: (m: string) => void }).switchTuiMode;
+          if (switchFn) switchFn('gui');
+          break;
+
+        default:
+          playErrorSound();
+          appendOutput(`
+            <div class="text-red-400">
+              zsh: command not found: <span class="font-bold">${escapeHtml(cmd)}</span>. 
+              Type <span class="text-[var(--fg-bright)] underline cursor-pointer" onclick="document.getElementById('cli-input').value='help'; document.getElementById('cli-input').dispatchEvent(new KeyboardEvent('keydown', {key:'Enter'}));">help</span> for manual.
+            </div>
+          `);
+          break;
+      }
+    }
+
+    function renderHelp() {
+      let html = `
+        <div class="border border-[var(--border-color)] bg-[var(--bg-card)] p-3 my-2 font-mono">
+          <div class="text-[var(--fg-bright)] font-bold border-b border-[var(--border-color)] pb-1 mb-2">AVAILABLE TERMINAL COMMANDS</div>
+          <div class="space-y-1.5 text-xs">
+      `;
+      PORTFOLIO_DATA.commands.forEach(c => {
+        html += `
+          <div class="grid grid-cols-12 gap-2">
+            <span class="col-span-3 text-[var(--accent)] font-bold">${c.name}</span>
+            <span class="col-span-9 text-[var(--fg-main)]">${c.desc} <span class="text-[var(--fg-dim)] text-[10px]">(${c.usage})</span></span>
+          </div>
+        `;
+      });
+      html += `</div></div>`;
+      appendOutput(html);
+    }
+
+    function renderAbout() {
+      const { developer } = PORTFOLIO_DATA;
+      appendOutput(`
+        <div class="border border-[var(--border-color)] bg-[var(--bg-card)] p-4 my-2 font-mono text-xs space-y-2">
+          <div class="text-[var(--fg-bright)] font-bold text-sm border-b border-[var(--border-color)] pb-1">📄 ABOUT ME // ${developer.name}</div>
+          <p class="text-[var(--fg-main)] leading-relaxed">${developer.bio}</p>
+          <div class="text-[var(--fg-dim)] italic">${developer.quote}</div>
+          <div class="pt-2 flex flex-wrap gap-4 text-xs">
+            <span>📍 ${developer.location}</span>
+            <span>✉️ ${developer.email}</span>
+          </div>
+        </div>
+      `);
+    }
+
+    function renderSkills() {
+      let html = `<div class="space-y-3 my-2">`;
+      PORTFOLIO_DATA.skills.forEach(cat => {
+        html += `
+          <div class="border border-[var(--border-color)] bg-[var(--bg-card)] p-3 text-xs font-mono">
+            <div class="text-[var(--accent)] font-bold mb-2 flex items-center gap-2">
+              <span>${cat.icon}</span>
+              <span>${cat.category}</span>
+            </div>
+            <div class="space-y-1.5">
+        `;
+        cat.skills.forEach(s => {
+          const filledCount = Math.round(s.level / 10);
+          const bar = '█'.repeat(filledCount) + '░'.repeat(10 - filledCount);
+          html += `
+            <div class="grid grid-cols-12 gap-2 items-center">
+              <span class="col-span-4 sm:col-span-3 text-[var(--fg-bright)] font-bold truncate">${s.name}</span>
+              <span class="col-span-6 sm:col-span-7 text-[var(--fg-main)] text-[11px] font-mono">[${bar}] ${s.level}%</span>
+              <span class="col-span-2 text-right text-[var(--fg-dim)] text-[10px]">${s.experience}</span>
+            </div>
+          `;
+        });
+        html += `</div></div>`;
+      });
+      html += `</div>`;
+      appendOutput(html);
+    }
+
+    function renderCollabs() {
+      let html = `<div class="space-y-3 my-2">`;
+      PORTFOLIO_DATA.collabs.forEach(c => {
+        html += `
+          <div class="border border-[var(--border-color)] bg-[var(--bg-card)] p-4 text-xs font-mono space-y-2 hover:border-[var(--border-active)] transition-colors">
+            <div class="flex items-center justify-between border-b border-[var(--border-color)] pb-2">
+              <span class="text-[var(--fg-bright)] font-bold text-sm">🤝 ${c.title}</span>
+              <span class="px-2 py-0.5 text-[10px] bg-[var(--border-color)] text-[var(--accent)] font-bold uppercase">${c.partnerType}</span>
+            </div>
+            <div class="text-[var(--accent)] font-bold">Partner: <span class="text-[var(--fg-bright)]">${c.partner}</span> // Role: <span class="text-emerald-400">${c.role}</span></div>
+            <p class="text-[var(--fg-main)] leading-relaxed">${c.description}</p>
+            <ul class="list-disc list-inside text-[var(--fg-dim)] space-y-0.5">
+              ${c.contributions.map(cont => `<li>${cont}</li>`).join('')}
+            </ul>
+            <div class="flex flex-wrap gap-1 pt-1">
+              ${c.techStack.map(t => `<span class="px-1.5 py-0.5 bg-[var(--bg-main)] text-[var(--fg-dim)] border border-[var(--border-color)] text-[10px]">${t}</span>`).join('')}
+            </div>
+          </div>
+        `;
+      });
+      html += `</div>`;
+      appendOutput(html);
+    }
+
+    function renderNeofetch() {
+      const { developer } = PORTFOLIO_DATA;
+      appendOutput(`
+        <div class="border border-[var(--border-color)] bg-[var(--bg-card)] p-3 my-2 font-mono text-xs">
+          <div class="text-[var(--fg-bright)] font-bold border-b border-[var(--border-color)] pb-1 mb-2">${developer.alias}</div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <div><span class="text-[var(--accent)] font-bold">Name:</span> ${developer.name}</div>
+            <div><span class="text-[var(--accent)] font-bold">Title:</span> ${developer.title}</div>
+            <div><span class="text-[var(--accent)] font-bold">OS:</span> ${developer.specs.OS}</div>
+            <div><span class="text-[var(--accent)] font-bold">Shell:</span> ${developer.specs.Shell}</div>
+            <div><span class="text-[var(--accent)] font-bold">Status:</span> ${developer.status}</div>
+          </div>
+        </div>
+      `);
+    }
+
+    function renderContact() {
+      const { developer } = PORTFOLIO_DATA;
+      appendOutput(`
+        <div class="border border-[var(--border-color)] bg-[var(--bg-card)] p-4 my-2 text-xs font-mono space-y-2">
+          <div class="text-[var(--fg-bright)] font-bold text-sm border-b border-[var(--border-color)] pb-1">✉️ CONTACT INFO</div>
+          <div><span class="text-[var(--accent)] font-bold">Email:</span> ${developer.email}</div>
+          <div><span class="text-[var(--accent)] font-bold">GitHub:</span> ${developer.github}</div>
+          <div><span class="text-[var(--accent)] font-bold">Location:</span> ${developer.location}</div>
+        </div>
+      `);
+    }
+
+    function escapeHtml(str: string): string {
+      return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+  });
+</script>
