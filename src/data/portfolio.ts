@@ -1,7 +1,7 @@
 export interface CollabItem {
   id: string;
   partner: string;
-  partnerType: 'Open Source Org' | 'Startup' | 'Tech Studio' | 'Research Team';
+  partnerType: "Open Source Org" | "Startup" | "Tech Studio" | "Research Team";
   title: string;
   role: string;
   period: string;
@@ -9,7 +9,7 @@ export interface CollabItem {
   contributions: string[];
   techStack: string[];
   link?: string;
-  status: 'ACTIVE' | 'COMPLETED' | 'ONGOING';
+  status: "ACTIVE" | "COMPLETED" | "ONGOING";
   asciiLogo?: string;
 }
 
@@ -26,13 +26,14 @@ export const PORTFOLIO_DATA = {
     title: "Senior Full Stack & Systems Engineer",
     alias: "root@quantum-box",
     email: "alex.devson@kernel.dev",
-    github: "https://github.com",
+    github: "https://github.com/nivinvysakh/astro-tui-portfolio",
     linkedin: "https://linkedin.com",
     twitter: "https://x.com",
     location: "San Francisco, CA // UTC-7",
     status: "🟢 OPEN FOR COLLABORATIONS & CONTRACTS",
     bio: "Passionate systems & web engineer with 7+ years of experience building high-throughput edge systems, interactive web applications, and developer tools. Active open-source contributor and collaborative team player.",
-    quote: "\"Code is like humor. When you have to explain it, it’s bad.\" – Cory House",
+    quote:
+      '"Code is like humor. When you have to explain it, it’s bad." – Cory House',
     specs: {
       OS: "Arch Linux x86_64 / macOS Darwin",
       Kernel: "6.10.8-zen1-1-zen",
@@ -43,7 +44,7 @@ export const PORTFOLIO_DATA = {
       Editor: "Neovim (NVChad) / VS Code",
       CPU: "Apple M3 Max (16 cores)",
       Memory: "24.5GiB / 64.0GiB",
-    }
+    },
   },
 
   skills: [
@@ -51,13 +52,28 @@ export const PORTFOLIO_DATA = {
       category: "Core Languages",
       icon: "⚡",
       skills: [
-        { name: "TypeScript / JavaScript", level: 95, experience: "7 yrs", tag: "EXPERT" },
+        {
+          name: "TypeScript / JavaScript",
+          level: 95,
+          experience: "7 yrs",
+          tag: "EXPERT",
+        },
         { name: "Rust", level: 85, experience: "4 yrs", tag: "ADVANCED" },
-        { name: "Go (Golang)", level: 80, experience: "3 yrs", tag: "ADVANCED" },
-        { name: "HTML5 / CSS3 / Tailwind", level: 95, experience: "7 yrs", tag: "EXPERT" },
+        {
+          name: "Go (Golang)",
+          level: 80,
+          experience: "3 yrs",
+          tag: "ADVANCED",
+        },
+        {
+          name: "HTML5 / CSS3 / Tailwind",
+          level: 95,
+          experience: "7 yrs",
+          tag: "EXPERT",
+        },
         { name: "Python", level: 88, experience: "5 yrs", tag: "PRO" },
-        { name: "SQL & NoSQL", level: 90, experience: "6 yrs", tag: "PRO" }
-      ]
+        { name: "SQL & NoSQL", level: 90, experience: "6 yrs", tag: "PRO" },
+      ],
     },
     {
       category: "Frameworks & Frontend",
@@ -65,24 +81,69 @@ export const PORTFOLIO_DATA = {
       skills: [
         { name: "Astro.js", level: 95, experience: "3 yrs", tag: "EXPERT" },
         { name: "React / Next.js", level: 92, experience: "6 yrs", tag: "PRO" },
-        { name: "Tailwind CSS v4", level: 95, experience: "4 yrs", tag: "EXPERT" },
-        { name: "Node.js / Hono / Express", level: 90, experience: "6 yrs", tag: "PRO" },
+        {
+          name: "Tailwind CSS v4",
+          level: 95,
+          experience: "4 yrs",
+          tag: "EXPERT",
+        },
+        {
+          name: "Node.js / Hono / Express",
+          level: 90,
+          experience: "6 yrs",
+          tag: "PRO",
+        },
         { name: "Vue / Nuxt", level: 80, experience: "3 yrs", tag: "ADVANCED" },
-        { name: "WebAssembly (Wasm)", level: 75, experience: "2 yrs", tag: "INTERMEDIATE" }
-      ]
+        {
+          name: "WebAssembly (Wasm)",
+          level: 75,
+          experience: "2 yrs",
+          tag: "INTERMEDIATE",
+        },
+      ],
     },
     {
       category: "DevOps, Cloud & Architecture",
       icon: "☁️",
       skills: [
-        { name: "Docker / Containerization", level: 88, experience: "5 yrs", tag: "PRO" },
-        { name: "Kubernetes & Helm", level: 80, experience: "3 yrs", tag: "ADVANCED" },
-        { name: "Linux Administration & Bash", level: 92, experience: "6 yrs", tag: "PRO" },
-        { name: "PostgreSQL & Redis", level: 90, experience: "5 yrs", tag: "PRO" },
-        { name: "CI/CD GitHub Actions", level: 88, experience: "5 yrs", tag: "PRO" },
-        { name: "Cloudflare Edge Workers", level: 85, experience: "4 yrs", tag: "ADVANCED" }
-      ]
-    }
+        {
+          name: "Docker / Containerization",
+          level: 88,
+          experience: "5 yrs",
+          tag: "PRO",
+        },
+        {
+          name: "Kubernetes & Helm",
+          level: 80,
+          experience: "3 yrs",
+          tag: "ADVANCED",
+        },
+        {
+          name: "Linux Administration & Bash",
+          level: 92,
+          experience: "6 yrs",
+          tag: "PRO",
+        },
+        {
+          name: "PostgreSQL & Redis",
+          level: 90,
+          experience: "5 yrs",
+          tag: "PRO",
+        },
+        {
+          name: "CI/CD GitHub Actions",
+          level: 88,
+          experience: "5 yrs",
+          tag: "PRO",
+        },
+        {
+          name: "Cloudflare Edge Workers",
+          level: 85,
+          experience: "4 yrs",
+          tag: "ADVANCED",
+        },
+      ],
+    },
   ] as SkillCategory[],
 
   collabs: [
@@ -94,18 +155,19 @@ export const PORTFOLIO_DATA = {
       role: "Lead Protocol Architect & Contributor",
       period: "2024 - PRESENT",
       status: "ACTIVE",
-      description: "Co-designed an open-source, ultra-low latency distributed edge cache protocol for multi-region serverless runtimes.",
+      description:
+        "Co-designed an open-source, ultra-low latency distributed edge cache protocol for multi-region serverless runtimes.",
       contributions: [
         "Architected lock-free data structures in Rust, reducing memory footprint by 35%.",
         "Co-authored RFC specs for async peer-to-peer buffer sync over QUIC.",
-        "Mentored 12+ open-source contributors on core module development."
+        "Mentored 12+ open-source contributors on core module development.",
       ],
       techStack: ["Rust", "Tokio", "QUIC Protocol", "WebAssembly"],
       link: "https://github.com",
       asciiLogo: `  +--------------------+
   | HYPEREDGE PROTOCOL |
   | [STATUS: ACTIVE]   |
-  +--------------------+`
+  +--------------------+`,
     },
     {
       id: "collab-astrosynth",
@@ -115,17 +177,24 @@ export const PORTFOLIO_DATA = {
       role: "Senior Frontend Engineer & Audio Specialist",
       period: "2023 - 2024",
       status: "COMPLETED",
-      description: "Joint collaboration to create a browser-based polyphonic synthesizer engine powered by Astro.js and WebAudio Worklets.",
+      description:
+        "Joint collaboration to create a browser-based polyphonic synthesizer engine powered by Astro.js and WebAudio Worklets.",
       contributions: [
         "Implemented real-time audio wave visualization using HTML5 Canvas & WebGL shaders.",
         "Optimized audio buffer rendering latency down to sub-5ms across Chrome & Safari.",
-        "Built responsive TUI modular controls using Tailwind CSS."
+        "Built responsive TUI modular controls using Tailwind CSS.",
       ],
-      techStack: ["Astro.js", "TypeScript", "WebAudio API", "Tailwind CSS", "Canvas"],
+      techStack: [
+        "Astro.js",
+        "TypeScript",
+        "WebAudio API",
+        "Tailwind CSS",
+        "Canvas",
+      ],
       link: "https://github.com",
       asciiLogo: `  /\\_/\\  AETHERIA
  ( o.o ) [AUDIO LABS]
-  > ^ <  ♪ ♫ ♩ ♬`
+  > ^ <  ♪ ♫ ♩ ♬`,
     },
     {
       id: "collab-neural-cli",
@@ -135,32 +204,81 @@ export const PORTFOLIO_DATA = {
       role: "Core Systems Collaborator",
       period: "2023 - PRESENT",
       status: "ONGOING",
-      description: "Partnered with AI researchers to build a lightweight, privacy-focused CLI co-pilot that translates intent to verified shell commands.",
+      description:
+        "Partnered with AI researchers to build a lightweight, privacy-focused CLI co-pilot that translates intent to verified shell commands.",
       contributions: [
         "Designed local LLM token streaming pipeline via IPC socket sockets.",
-        "Engineered strict command validation sandboxing for dangerous shell commands."
+        "Engineered strict command validation sandboxing for dangerous shell commands.",
       ],
       techStack: ["Node.js", "TypeScript", "Ollama API", "Inquirer.js"],
       link: "https://github.com",
       asciiLogo: `  [KERNEL-AI COLLAB]
   Intent --> [Local LLM]
-  Execution --> bash -c`
-    }
+  Execution --> bash -c`,
+    },
   ] as CollabItem[],
 
   commands: [
-    { name: "help", desc: "List all available terminal commands", usage: "help" },
-    { name: "about", desc: "Display bio, engineering philosophy & summary", usage: "about [or cat bio.txt]" },
-    { name: "skills", desc: "Display interactive skill proficiency meters", usage: "skills [or cat skills.sh]" },
-    { name: "collabs", desc: "Display list of team collaborations & partner projects", usage: "collabs [or cat collabs.md]" },
-    { name: "neofetch", desc: "Display ASCII banner & hardware system specs", usage: "neofetch" },
-    { name: "contact", desc: "Display contact info and social handles", usage: "contact [or mail]" },
-    { name: "theme", desc: "Switch theme (green, amber, cyan, dracula, mono)", usage: "theme <green|amber|cyan|dracula|mono>" },
-    { name: "matrix", desc: "Toggle digital rain CRT overlay animation", usage: "matrix" },
+    {
+      name: "help",
+      desc: "List all available terminal commands",
+      usage: "help",
+    },
+    {
+      name: "about",
+      desc: "Display bio, engineering philosophy & summary",
+      usage: "about [or cat bio.txt]",
+    },
+    {
+      name: "skills",
+      desc: "Display interactive skill proficiency meters",
+      usage: "skills [or cat skills.sh]",
+    },
+    {
+      name: "collabs",
+      desc: "Display list of team collaborations & partner projects",
+      usage: "collabs [or cat collabs.md]",
+    },
+    {
+      name: "neofetch",
+      desc: "Display ASCII banner & hardware system specs",
+      usage: "neofetch",
+    },
+    {
+      name: "contact",
+      desc: "Display contact info and social handles",
+      usage: "contact [or mail]",
+    },
+    {
+      name: "theme",
+      desc: "Switch theme (green, amber, cyan, dracula, mono)",
+      usage: "theme <green|amber|cyan|dracula|mono>",
+    },
+    {
+      name: "matrix",
+      desc: "Toggle digital rain CRT overlay animation",
+      usage: "matrix",
+    },
     { name: "crt", desc: "Toggle CRT scanline screen effect", usage: "crt" },
-    { name: "sfx", desc: "Toggle audio feedback keypress sounds", usage: "sfx" },
-    { name: "clear", desc: "Clear terminal buffer screen", usage: "clear [or cls]" },
-    { name: "gui", desc: "Switch window layout to TUI Visual Dashboard", usage: "gui" },
-    { name: "cli", desc: "Switch window layout to Interactive CLI Mode", usage: "cli" }
-  ]
+    {
+      name: "sfx",
+      desc: "Toggle audio feedback keypress sounds",
+      usage: "sfx",
+    },
+    {
+      name: "clear",
+      desc: "Clear terminal buffer screen",
+      usage: "clear [or cls]",
+    },
+    {
+      name: "gui",
+      desc: "Switch window layout to TUI Visual Dashboard",
+      usage: "gui",
+    },
+    {
+      name: "cli",
+      desc: "Switch window layout to Interactive CLI Mode",
+      usage: "cli",
+    },
+  ],
 };
