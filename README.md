@@ -259,7 +259,7 @@ Visitors can execute the following interactive commands inside CLI Mode:
 | `collabs` | Display team collaborations & partner projects | `collabs` (or `cat collabs.md`) |
 | `neofetch` | Display ASCII banner & system hardware specs | `neofetch` |
 | `contact` | Display email & social links | `contact` (or `cat contact.txt`) |
-| `theme` | Switch color theme | `theme <green|amber|cyan|dracula|mono>` |
+| `theme` | Switch color theme | `theme <green\|amber\|cyan\|dracula\|mono>` |
 | `matrix` | Toggle digital rain CRT canvas animation | `matrix` |
 | `crt` | Toggle CRT scanlines screen overlay | `crt` |
 | `sfx` | Toggle audio keypress feedback sounds | `sfx` |
