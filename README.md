@@ -30,12 +30,12 @@ The portfolio template includes **5 built-in retro CRT themes** that can be togg
 
 | UI Element | CSS Variable | Hex Color | Visual Swatch |
 | :--- | :--- | :--- | :--- |
-| **Main Text** | `--fg-main` | `#00FF66` | ![#00FF66](https://via.placeholder.com/15/00FF66/000000?text=+) `#00FF66` |
-| **Bright Text** | `--fg-bright` | `#66FF99` | ![#66FF99](https://via.placeholder.com/15/66FF99/000000?text=+) `#66FF99` |
-| **Accent Glow** | `--accent` | `#00FFCC` | ![#00FFCC](https://via.placeholder.com/15/00FFCC/000000?text=+) `#00FFCC` |
-| **Background** | `--bg-main` | `#0A120B` | ![#0A120B](https://via.placeholder.com/15/0A120B/000000?text=+) `#0A120B` |
-| **Card Background** | `--bg-card` | `#0D1A0E` | ![#0D1A0E](https://via.placeholder.com/15/0D1A0E/000000?text=+) `#0D1A0E` |
-| **Border Line** | `--border-color` | `#00441B` | ![#00441B](https://via.placeholder.com/15/00441B/000000?text=+) `#00441B` |
+| **Main Text** | `--fg-main` | `#00FF66` | ![](https://img.shields.io/badge/-%2300FF66-00FF66) `#00FF66` |
+| **Bright Text** | `--fg-bright` | `#66FF99` | ![](https://img.shields.io/badge/-%2366FF99-66FF99) `#66FF99` |
+| **Accent Glow** | `--accent` | `#00FFCC` | ![](https://img.shields.io/badge/-%2300FFCC-00FFCC) `#00FFCC` |
+| **Background** | `--bg-main` | `#0A120B` | ![](https://img.shields.io/badge/-%230A120B-0A120B) `#0A120B` |
+| **Card Background** | `--bg-card` | `#0D1A0E` | ![](https://img.shields.io/badge/-%230D1A0E-0D1A0E) `#0D1A0E` |
+| **Border Line** | `--border-color` | `#00441B` | ![](https://img.shields.io/badge/-%2300441B-00441B) `#00441B` |
 
 *Screenshot:*
 
@@ -49,12 +49,12 @@ The portfolio template includes **5 built-in retro CRT themes** that can be togg
 
 | UI Element | CSS Variable | Hex Color | Visual Swatch |
 | :--- | :--- | :--- | :--- |
-| **Main Text** | `--fg-main` | `#FFB000` | ![#FFB000](https://via.placeholder.com/15/FFB000/000000?text=+) `#FFB000` |
-| **Bright Text** | `--fg-bright` | `#FFD066` | ![#FFD066](https://via.placeholder.com/15/FFD066/000000?text=+) `#FFD066` |
-| **Accent Glow** | `--accent` | `#FFCC00` | ![#FFCC00](https://via.placeholder.com/15/FFCC00/000000?text=+) `#FFCC00` |
-| **Background** | `--bg-main` | `#140D04` | ![#140D04](https://via.placeholder.com/15/140D04/000000?text=+) `#140D04` |
-| **Card Background** | `--bg-card` | `#1D1306` | ![#1D1306](https://via.placeholder.com/15/1D1306/000000?text=+) `#1D1306` |
-| **Border Line** | `--border-color` | `#4A3200` | ![#4A3200](https://via.placeholder.com/15/4A3200/000000?text=+) `#4A3200` |
+| **Main Text** | `--fg-main` | `#FFB000` | ![](https://img.shields.io/badge/-%23FFB000-FFB000) `#FFB000` |
+| **Bright Text** | `--fg-bright` | `#FFD066` | ![](https://img.shields.io/badge/-%23FFD066-FFD066) `#FFD066` |
+| **Accent Glow** | `--accent` | `#FFCC00` | ![](https://img.shields.io/badge/-%23FFCC00-FFCC00) `#FFCC00` |
+| **Background** | `--bg-main` | `#140D04` | ![](https://img.shields.io/badge/-%23140D04-140D04) `#140D04` |
+| **Card Background** | `--bg-card` | `#1D1306` | ![](https://img.shields.io/badge/-%231D1306-1D1306) `#1D1306` |
+| **Border Line** | `--border-color` | `#4A3200` | ![](https://img.shields.io/badge/-%234A3200-4A3200) `#4A3200` |
 
 *Screenshot:*
 
@@ -68,12 +68,12 @@ The portfolio template includes **5 built-in retro CRT themes** that can be togg
 
 | UI Element | CSS Variable | Hex Color | Visual Swatch |
 | :--- | :--- | :--- | :--- |
-| **Main Text** | `--fg-main` | `#00F0FF` | ![#00F0FF](https://via.placeholder.com/15/00F0FF/000000?text=+) `#00F0FF` |
-| **Bright Text** | `--fg-bright` | `#70F5FF` | ![#70F5FF](https://via.placeholder.com/15/70F5FF/000000?text=+) `#70F5FF` |
-| **Accent Pink** | `--accent` | `#FF007F` | ![#FF007F](https://via.placeholder.com/15/FF007F/000000?text=+) `#FF007F` |
-| **Background** | `--bg-main` | `#051014` | ![#051014](https://via.placeholder.com/15/051014/000000?text=+) `#051014` |
-| **Card Background** | `--bg-card` | `#091920` | ![#091920](https://via.placeholder.com/15/091920/000000?text=+) `#091920` |
-| **Border Line** | `--border-color` | `#003D47` | ![#003D47](https://via.placeholder.com/15/003D47/000000?text=+) `#003D47` |
+| **Main Text** | `--fg-main` | `#00F0FF` | ![](https://img.shields.io/badge/-%2300F0FF-00F0FF) `#00F0FF` |
+| **Bright Text** | `--fg-bright` | `#70F5FF` | ![](https://img.shields.io/badge/-%2370F5FF-70F5FF) `#70F5FF` |
+| **Accent Pink** | `--accent` | `#FF007F` | ![](https://img.shields.io/badge/-%23FF007F-FF007F) `#FF007F` |
+| **Background** | `--bg-main` | `#051014` | ![](https://img.shields.io/badge/-%23051014-051014) `#051014` |
+| **Card Background** | `--bg-card` | `#091920` | ![](https://img.shields.io/badge/-%23091920-091920) `#091920` |
+| **Border Line** | `--border-color` | `#003D47` | ![](https://img.shields.io/badge/-%23003D47-003D47) `#003D47` |
 
 *Screenshot:*
 
@@ -86,13 +86,13 @@ The portfolio template includes **5 built-in retro CRT themes** that can be togg
 
 | UI Element | CSS Variable | Hex Color | Visual Swatch |
 | :--- | :--- | :--- | :--- |
-| **Main Text** | `--fg-main` | `#BD93F9` | ![#BD93F9](https://via.placeholder.com/15/BD93F9/000000?text=+) `#BD93F9` |
-| **Bright Text** | `--fg-bright` | `#D6BBFB` | ![#D6BBFB](https://via.placeholder.com/15/D6BBFB/000000?text=+) `#D6BBFB` |
-| **Accent Pink** | `--accent` | `#FF79C6` | ![#FF79C6](https://via.placeholder.com/15/FF79C6/000000?text=+) `#FF79C6` |
-| **Accent Green**| `--accent-secondary` | `#50FA7B` | ![#50FA7B](https://via.placeholder.com/15/50FA7B/000000?text=+) `#50FA7B` |
-| **Background** | `--bg-main` | `#110E1B` | ![#110E1B](https://via.placeholder.com/15/110E1B/000000?text=+) `#110E1B` |
-| **Card Background** | `--bg-card` | `#191428` | ![#191428](https://via.placeholder.com/15/191428/000000?text=+) `#191428` |
-| **Border Line** | `--border-color` | `#3B2C59` | ![#3B2C59](https://via.placeholder.com/15/3B2C59/000000?text=+) `#3B2C59` |
+| **Main Text** | `--fg-main` | `#BD93F9` | ![](https://img.shields.io/badge/-%23BD93F9-BD93F9) `#BD93F9` |
+| **Bright Text** | `--fg-bright` | `#D6BBFB` | ![](https://img.shields.io/badge/-%23D6BBFB-D6BBFB) `#D6BBFB` |
+| **Accent Pink** | `--accent` | `#FF79C6` | ![](https://img.shields.io/badge/-%23FF79C6-FF79C6) `#FF79C6` |
+| **Accent Green**| `--accent-secondary` | `#50FA7B` | ![](https://img.shields.io/badge/-%2350FA7B-50FA7B) `#50FA7B` |
+| **Background** | `--bg-main` | `#110E1B` | ![](https://img.shields.io/badge/-%23110E1B-110E1B) `#110E1B` |
+| **Card Background** | `--bg-card` | `#191428` | ![](https://img.shields.io/badge/-%23191428-191428) `#191428` |
+| **Border Line** | `--border-color` | `#3B2C59` | ![](https://img.shields.io/badge/-%233B2C59-3B2C59) `#3B2C59` |
 
 *Screenshot:*
 
@@ -105,12 +105,12 @@ The portfolio template includes **5 built-in retro CRT themes** that can be togg
 
 | UI Element | CSS Variable | Hex Color | Visual Swatch |
 | :--- | :--- | :--- | :--- |
-| **Main Text** | `--fg-main` | `#EEEEEE` | ![#EEEEEE](https://via.placeholder.com/15/EEEEEE/000000?text=+) `#EEEEEE` |
-| **Bright Text** | `--fg-bright` | `#FFFFFF` | ![#FFFFFF](https://via.placeholder.com/15/FFFFFF/000000?text=+) `#FFFFFF` |
-| **Accent Cyan** | `--accent` | `#00E5FF` | ![#00E5FF](https://via.placeholder.com/15/00E5FF/000000?text=+) `#00E5FF` |
-| **Background** | `--bg-main` | `#0F0F0F` | ![#0F0F0F](https://via.placeholder.com/15/0F0F0F/000000?text=+) `#0F0F0F` |
-| **Card Background** | `--bg-card` | `#191919` | ![#191919](https://via.placeholder.com/15/191919/000000?text=+) `#191919` |
-| **Border Line** | `--border-color` | `#333333` | ![#333333](https://via.placeholder.com/15/333333/000000?text=+) `#333333` |
+| **Main Text** | `--fg-main` | `#EEEEEE` | ![](https://img.shields.io/badge/-%23EEEEEE-EEEEEE) `#EEEEEE` |
+| **Bright Text** | `--fg-bright` | `#FFFFFF` | ![](https://img.shields.io/badge/-%23FFFFFF-FFFFFF) `#FFFFFF` |
+| **Accent Cyan** | `--accent` | `#00E5FF` | ![](https://img.shields.io/badge/-%2300E5FF-00E5FF) `#00E5FF` |
+| **Background** | `--bg-main` | `#0F0F0F` | ![](https://img.shields.io/badge/-%230F0F0F-0F0F0F) `#0F0F0F` |
+| **Card Background** | `--bg-card` | `#191919` | ![](https://img.shields.io/badge/-%23191919-191919) `#191919` |
+| **Border Line** | `--border-color` | `#333333` | ![](https://img.shields.io/badge/-%23333333-333333) `#333333` |
 
 *Screenshot:*
 
