@@ -63,6 +63,7 @@ import { PORTFOLIO_DATA } from "../data/portfolio";
 
 <script>
   import { PORTFOLIO_DATA } from "../data/portfolio";
+  import { getSpotifyActivity } from "../config/spotifyConfig";
   import {
     ALL_THEMES,
     applyTheme,
@@ -275,6 +276,13 @@ import { PORTFOLIO_DATA } from "../data/portfolio";
           }
           break;
 
+        case "spotify":
+        case "nowplaying":
+        case "np":
+          playSuccessSound();
+          renderSpotify();
+          break;
+
         case "matrix":
           playSuccessSound();
           const win = window as unknown as {
@@ -417,8 +425,22 @@ import { PORTFOLIO_DATA } from "../data/portfolio";
       if (developer.palette && developer.palette.length > 8) {
         paletteHtml = `<span class="text-red-400 font-bold text-[10px] px-2 py-0.5 border border-red-500/50 bg-red-950/40">❌ PALETTE ERROR: Maximum 8 colors allowed (found ${developer.palette.length})</span>`;
       } else {
-        paletteHtml = (developer.palette || ["#0f0f0f", "#ef4444", "#22c55e", "#eab308", "#3b82f6", "#a855f7", "#06b6d4", "#f8fafc"])
-          .map((c) => `<span class="w-3.5 h-3.5 inline-block border border-gray-700/60" style="background-color: ${c};"></span>`)
+        paletteHtml = (
+          developer.palette || [
+            "#0f0f0f",
+            "#ef4444",
+            "#22c55e",
+            "#eab308",
+            "#3b82f6",
+            "#a855f7",
+            "#06b6d4",
+            "#f8fafc",
+          ]
+        )
+          .map(
+            (c) =>
+              `<span class="w-3.5 h-3.5 inline-block border border-gray-700/60" style="background-color: ${c};"></span>`,
+          )
           .join("");
       }
 
@@ -448,6 +470,44 @@ import { PORTFOLIO_DATA } from "../data/portfolio";
           <div><span class="text-[var(--accent)] font-bold">Email:</span> ${developer.email}</div>
           <div><span class="text-[var(--accent)] font-bold">GitHub:</span> ${developer.github}</div>
           <div><span class="text-[var(--accent)] font-bold">Location:</span> ${developer.location}</div>
+        </div>
+      `);
+    }
+
+    async function renderSpotify() {
+      const track = await getSpotifyActivity();
+      const formatTime = (ms: number) => {
+        const total = Math.floor(ms / 1000);
+        const m = Math.floor(total / 60);
+        const s = total % 60;
+        return `${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
+      };
+      const pct = Math.min(
+        100,
+        Math.max(0, Math.round((track.progressMs / track.durationMs) * 100)),
+      );
+      const filled = Math.round(pct / 5);
+      const bar = "█".repeat(filled) + "░".repeat(20 - filled);
+
+      appendOutput(`
+        <div class="border border-[var(--border-color)] bg-[var(--bg-card)] p-4 my-2 text-xs font-mono space-y-2.5">
+          <div class="flex items-center justify-between border-b border-[var(--border-color)] pb-2">
+            <span class="text-emerald-400 font-bold flex items-center gap-1.5">🎵 SPOTIFY NOW PLAYING</span>
+            <span class="text-[10px] text-[var(--fg-dim)] font-bold">AUDIO RPC v1.0</span>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <div><span class="text-[var(--accent)] font-bold">Track:</span> <a href="${track.songUrl || "#"}" target="_blank" class="text-[var(--fg-bright)] underline">${track.title} ↗</a></div>
+            <div><span class="text-[var(--accent)] font-bold">Artist:</span> <span class="text-emerald-400 font-bold">${track.artist}</span></div>
+            <div><span class="text-[var(--accent)] font-bold">Album:</span> ${track.album}</div>
+            <div><span class="text-[var(--accent)] font-bold">Status:</span> ${track.isPlaying ? "▶ PLAYING" : "⏸ PAUSED"}</div>
+          </div>
+          <div class="pt-1 space-y-1">
+            <div class="flex justify-between text-[10px] text-[var(--fg-dim)] font-bold">
+              <span>${formatTime(track.progressMs)}</span>
+              <span class="text-emerald-400">[${bar}] ${pct}%</span>
+              <span>${formatTime(track.durationMs)}</span>
+            </div>
+          </div>
         </div>
       `);
     }

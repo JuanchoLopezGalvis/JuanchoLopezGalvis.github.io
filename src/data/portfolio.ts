@@ -279,6 +279,11 @@ export const PORTFOLIO_DATA = {
       usage: "neofetch",
     },
     {
+      name: "spotify",
+      desc: "Display Spotify Now Playing song activity & Audio RPC status",
+      usage: "spotify [or np, nowplaying]",
+    },
+    {
       name: "contact",
       desc: "Display contact info and social handles",
       usage: "contact [or mail]",

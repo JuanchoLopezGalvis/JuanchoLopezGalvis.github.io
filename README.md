@@ -368,6 +368,28 @@ export const GLOBAL_CRT_CONFIG: CRTConfig = {
 
 Replace `public/favicon.svg` with your own SVG logo or icon.
 
+### 8. Live Spotify Activity & Discord Lanyard Integration
+
+The portfolio includes a **Live Spotify Now Playing / Last Played Activity Widget** and `spotify` CLI command powered by real-time WebSockets (`wss://api.lanyard.rest/socket`).
+
+Open **`src/config/spotifyConfig.ts`** to configure your Discord User ID:
+
+```typescript
+export const SPOTIFY_CONFIG: SpotifyConfig = {
+  enabled: true,
+  // Provide your Discord User ID here to automatically stream live Spotify activity!
+  lanyardUserId: "YOUR_DISCORD_USER_ID_HERE",
+};
+```
+
+> [!NOTE]
+> - **Join Lanyard Server (Required)**: You **must join the Lanyard Discord Server** ([discord.gg/lanyard](https://discord.gg/lanyard)) for Lanyard to monitor your Discord presence and stream your Spotify RPC data.
+> - **Discord Running in Background**: Discord (Desktop or Web) must be running on your machine while playing Spotify so Discord can broadcast your live listening activity to Lanyard.
+> - **How to get your Discord User ID**: Enable Developer Mode in Discord settings (User Settings > Advanced > Developer Mode), then right-click your profile picture and select **Copy User ID**.
+> - **Auto-Hide**: Leaving `lanyardUserId: ""` empty automatically hides the Spotify widget from the GUI dashboard sidebar.
+> - **Cookie Persistence**: When offline or not actively playing music, the widget automatically restores your most recently played song from browser cookies (`tui_last_played_track`).
+
+
 ---
 
 ## 💻 CLI Commands Reference
@@ -381,7 +403,8 @@ Visitors can execute the following interactive commands inside CLI Mode:
 | `skills`   | Display interactive skill progress meters      | `skills` (or `cat skills.sh`)               |
 | `collabs`  | Display team collaborations & partner projects | `collabs` (or `cat collabs.md`)             |
 | `neofetch` | Display ASCII banner & system hardware specs   | `neofetch`                                  |
-| `contact`  | Display email & social links                   | `contact` (or `cat contact.txt`)            |
+| `contact`  | Display email & social links                   | `contact` (or `mail`)                       |
+| `spotify`  | Display Spotify Now Playing & Audio RPC status | `spotify` (or `np`)                         |
 | `theme`    | Switch color theme                             | `theme <green\|amber\|cyan\|dracula\|mono>` |
 | `matrix`   | Toggle digital rain CRT canvas animation       | `matrix`                                    |
 | `crt`      | Toggle CRT scanlines screen overlay            | `crt`                                       |
