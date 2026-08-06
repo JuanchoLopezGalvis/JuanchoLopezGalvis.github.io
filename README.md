@@ -398,9 +398,6 @@ The portfolio includes a **Live Gaming Activity Widget** that automatically stre
 https://github.com/user-attachments/assets/b48b7e89-4402-48b1-a201-9028e0d75327
 
 
-
-
-
 Open **`src/config/gamesConfig.ts`** to configure your Discord User ID:
 
 ```typescript
