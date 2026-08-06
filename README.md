@@ -393,6 +393,8 @@ export const SPOTIFY_CONFIG: SpotifyConfig = {
 
 The portfolio includes a **Live Gaming Activity Widget** that automatically streams your active PC/Mac game activity via Discord Lanyard WebSockets (`wss://api.lanyard.rest/socket`).
 
+<video src="demo/demo.mp4" controls width="100%"></video>
+
 Open **`src/config/gamesConfig.ts`** to configure your Discord User ID:
 
 ```typescript
