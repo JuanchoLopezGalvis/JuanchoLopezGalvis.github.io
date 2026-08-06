@@ -29,11 +29,10 @@ const {
     <meta property="og:type" content="website" />
     <meta name="theme-color" content="#0a120b" />
 
-    <script is:inline>
-      (function () {
-        const savedTheme = localStorage.getItem("tui_theme") || "green";
-        document.documentElement.setAttribute("data-theme", savedTheme);
-      })();
+    <script>
+      import { applyTheme } from "../config/themeConfig";
+      const savedTheme = localStorage.getItem("tui_theme") || "green";
+      applyTheme(savedTheme);
     </script>
   </head>
   <body

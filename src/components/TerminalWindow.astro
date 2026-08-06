@@ -1,52 +1,103 @@
 ---
+import { ALL_THEMES } from "../config/themeConfig";
 ---
 
-<div class="max-w-6xl mx-auto w-full border border-[var(--border-active)] bg-[var(--bg-main)] shadow-2xl relative transition-all duration-200">
-  <header class="bg-[var(--status-bar-bg)] border-b border-[var(--border-color)] px-3 py-2 flex flex-wrap items-center justify-between gap-2 select-none">
+<div
+  class="max-w-6xl mx-auto w-full border border-[var(--border-active)] bg-[var(--bg-main)] shadow-2xl relative transition-all duration-200"
+>
+  <header
+    class="bg-[var(--status-bar-bg)] border-b border-[var(--border-color)] px-3 py-2 flex flex-wrap items-center justify-between gap-2 select-none"
+  >
     <div class="flex items-center gap-3">
       <div class="flex items-center gap-1.5">
-        <span id="win-close" title="Reset Terminal" class="w-3 h-3 rounded-full bg-red-500/80 hover:bg-red-500 cursor-pointer inline-block border border-red-700 transition-colors"></span>
-        <span id="win-min" title="Toggle Compact View" class="w-3 h-3 rounded-full bg-yellow-500/80 hover:bg-yellow-500 cursor-pointer inline-block border border-yellow-700 transition-colors"></span>
-        <span id="win-max" title="Full Width" class="w-3 h-3 rounded-full bg-emerald-500/80 hover:bg-emerald-500 cursor-pointer inline-block border border-emerald-700 transition-colors"></span>
+        <span
+          id="win-close"
+          title="Reset Terminal"
+          class="w-3 h-3 rounded-full bg-red-500/80 hover:bg-red-500 cursor-pointer inline-block border border-red-700 transition-colors"
+        ></span>
+        <span
+          id="win-min"
+          title="Toggle Compact View"
+          class="w-3 h-3 rounded-full bg-yellow-500/80 hover:bg-yellow-500 cursor-pointer inline-block border border-yellow-700 transition-colors"
+        ></span>
+        <span
+          id="win-max"
+          title="Full Width"
+          class="w-3 h-3 rounded-full bg-emerald-500/80 hover:bg-emerald-500 cursor-pointer inline-block border border-emerald-700 transition-colors"
+        ></span>
       </div>
-      <div class="text-xs font-mono font-bold text-[var(--fg-bright)] flex items-center gap-1.5">
+      <div
+        class="text-xs font-mono font-bold text-[var(--fg-bright)] flex items-center gap-1.5"
+      >
         <span class="text-[var(--fg-dim)]">alex@quantum-box:</span>
-        <span id="current-path" class="text-[var(--accent)] font-mono">~/portfolio</span>
-        <span class="text-[10px] px-1.5 py-0.5 rounded bg-[var(--border-color)] text-[var(--fg-dim)] font-mono">main*</span>
+        <span id="current-path" class="text-[var(--accent)] font-mono"
+          >~/portfolio</span
+        >
+        <span
+          class="text-[10px] px-1.5 py-0.5 rounded bg-[var(--border-color)] text-[var(--fg-dim)] font-mono"
+          >main*</span
+        >
       </div>
     </div>
 
-    <div class="flex items-center gap-1 bg-[var(--bg-card)] border border-[var(--border-color)] p-0.5 rounded-none text-xs font-mono">
-      <button id="tab-cli" class="hidden md:inline-block px-3 py-1 font-bold text-[var(--fg-bright)] bg-[var(--border-color)] border-b-2 border-[var(--accent)] cursor-pointer transition-colors">
+    <div
+      class="flex items-center gap-1 bg-[var(--bg-card)] border border-[var(--border-color)] p-0.5 rounded-none text-xs font-mono"
+    >
+      <button
+        id="tab-cli"
+        class="hidden md:inline-block px-3 py-1 font-bold text-[var(--fg-bright)] bg-[var(--border-color)] border-b-2 border-[var(--accent)] cursor-pointer transition-colors"
+      >
         >_ CLI Mode
       </button>
-      <button id="tab-gui" class="px-3 py-1 font-bold text-[var(--fg-dim)] hover:text-[var(--fg-bright)] cursor-pointer transition-colors">
+      <button
+        id="tab-gui"
+        class="px-3 py-1 font-bold text-[var(--fg-dim)] hover:text-[var(--fg-bright)] cursor-pointer transition-colors"
+      >
         [#] GUI Dashboard
       </button>
     </div>
 
     <div class="flex items-center gap-2 text-xs font-mono">
       <div class="relative group">
-        <select id="theme-select" aria-label="Select Color Theme" class="bg-[var(--bg-card)] text-[var(--fg-bright)] border border-[var(--border-color)] px-2 py-1 text-xs font-mono cursor-pointer focus:outline-none focus:border-[var(--border-active)]">
-          <option value="green">🟢 Phosphor Green</option>
-          <option value="amber">🟠 Amber CRT</option>
-          <option value="cyan">🔵 Cyber Cyan</option>
-          <option value="dracula">🟣 Dracula Synth</option>
-          <option value="mono">⚪ Monochrome</option>
+        <select
+          id="theme-select"
+          aria-label="Select Color Theme"
+          class="bg-[var(--bg-card)] text-[var(--fg-bright)] border border-[var(--border-color)] px-2 py-1 text-xs font-mono cursor-pointer focus:outline-none focus:border-[var(--border-active)]"
+        >
+          {
+            ALL_THEMES.map((theme) => (
+              <option value={theme.id}>
+                {theme.emoji} {theme.name}
+              </option>
+            ))
+          }
         </select>
       </div>
 
-      <button id="toggle-crt-btn" aria-label="Toggle CRT Effect" class="hidden md:flex px-2 py-1 border border-[var(--border-color)] bg-[var(--bg-card)] hover:border-[var(--border-active)] text-[var(--fg-bright)] cursor-pointer items-center gap-1">
-        <span id="crt-indicator" class="w-2 h-2 rounded-full bg-emerald-400"></span>
+      <button
+        id="toggle-crt-btn"
+        aria-label="Toggle CRT Effect"
+        class="hidden md:flex px-2 py-1 border border-[var(--border-color)] bg-[var(--bg-card)] hover:border-[var(--border-active)] text-[var(--fg-bright)] cursor-pointer items-center gap-1"
+      >
+        <span id="crt-indicator" class="w-2 h-2 rounded-full bg-emerald-400"
+        ></span>
         <span class="hidden sm:inline">CRT</span>
       </button>
 
-      <button id="toggle-sfx-btn" aria-label="Toggle Audio Sound Effects" class="px-2 py-1 border border-[var(--border-color)] bg-[var(--bg-card)] hover:border-[var(--border-active)] text-[var(--fg-bright)] cursor-pointer flex items-center gap-1">
+      <button
+        id="toggle-sfx-btn"
+        aria-label="Toggle Audio Sound Effects"
+        class="px-2 py-1 border border-[var(--border-color)] bg-[var(--bg-card)] hover:border-[var(--border-active)] text-[var(--fg-bright)] cursor-pointer flex items-center gap-1"
+      >
         <span id="sfx-icon">🔊</span>
         <span id="sfx-status" class="hidden sm:inline">SFX</span>
       </button>
 
-      <button id="trigger-matrix-btn" title="Trigger Matrix Rain" class="px-2 py-1 border border-[var(--border-color)] bg-[var(--bg-card)] hover:border-[var(--accent)] text-[var(--accent)] font-bold cursor-pointer">
+      <button
+        id="trigger-matrix-btn"
+        title="Trigger Matrix Rain"
+        class="px-2 py-1 border border-[var(--border-color)] bg-[var(--bg-card)] hover:border-[var(--accent)] text-[var(--accent)] font-bold cursor-pointer"
+      >
         ⚡ Matrix
       </button>
     </div>
@@ -56,152 +107,181 @@
     <slot />
   </main>
 
-  <footer class="bg-[var(--status-bar-bg)] border-t border-[var(--border-color)] px-4 py-1.5 text-[11px] font-mono text-[var(--fg-dim)] flex flex-wrap items-center justify-between gap-2 select-none">
+  <footer
+    class="bg-[var(--status-bar-bg)] border-t border-[var(--border-color)] px-4 py-1.5 text-[11px] font-mono text-[var(--fg-dim)] flex flex-wrap items-center justify-between gap-2 select-none"
+  >
     <div class="flex items-center gap-4">
       <span class="flex items-center gap-1.5 text-emerald-400 font-bold">
         <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
         STATUS 200 OK
       </span>
       <span class="hidden sm:inline">UTF-8</span>
-      <span class="hidden md:inline">MODE: <span id="mode-status-text">CLI</span></span>
+      <span class="hidden md:inline"
+        >MODE: <span id="mode-status-text">CLI</span></span
+      >
     </div>
 
     <div class="flex items-center gap-4">
-      <span id="live-clock" class="text-[var(--fg-bright)] font-mono">00:00:00 UTC</span>
+      <span id="live-clock" class="text-[var(--fg-bright)] font-mono"
+        >00:00:00 UTC</span
+      >
       <span class="text-[var(--accent)] font-bold">TUI_ENGINE v5.0</span>
     </div>
   </footer>
 </div>
 
 <script>
-  import { toggleSfx, isSfxEnabled, initSfxFromStorage, playBeep } from '../utils/sound';
+  import {
+    toggleSfx,
+    isSfxEnabled,
+    initSfxFromStorage,
+    playBeep,
+  } from "../utils/sound";
+  import { applyTheme, applyCRTConfig } from '../config/themeConfig';
 
-  document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener("DOMContentLoaded", () => {
+    const isMobile =
+      window.innerWidth < 768 ||
+      /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(
+        navigator.userAgent,
+      );
+
     initSfxFromStorage();
     updateSfxUI();
 
     function updateClock() {
-      const clockEl = document.getElementById('live-clock');
+      const clockEl = document.getElementById("live-clock");
       if (clockEl) {
         const now = new Date();
-        clockEl.textContent = now.toTimeString().split(' ')[0] + ' LOCAL';
+        clockEl.textContent = now.toTimeString().split(" ")[0] + " LOCAL";
       }
     }
     updateClock();
     setInterval(updateClock, 1000);
 
-    const themeSelect = document.getElementById('theme-select') as HTMLSelectElement;
-    const savedTheme = localStorage.getItem('tui_theme') || 'green';
+    const themeSelect = document.getElementById(
+      "theme-select",
+    ) as HTMLSelectElement;
+    const savedTheme = localStorage.getItem("tui_theme") || "green";
     if (themeSelect) {
       themeSelect.value = savedTheme;
-      document.documentElement.setAttribute('data-theme', savedTheme);
+      applyTheme(savedTheme);
 
-      themeSelect.addEventListener('change', (e) => {
+      themeSelect.addEventListener("change", (e) => {
         const val = (e.target as HTMLSelectElement).value;
-        document.documentElement.setAttribute('data-theme', val);
-        localStorage.setItem('tui_theme', val);
+        applyTheme(val);
+        localStorage.setItem("tui_theme", val);
         playBeep(600, 0.05);
       });
     }
 
-    const crtBtn = document.getElementById('toggle-crt-btn');
-    const crtOverlay = document.getElementById('crt-overlay-layer');
-    const crtIndicator = document.getElementById('crt-indicator');
-    const isMobile = window.innerWidth < 768 || /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(navigator.userAgent);
-    let crtEnabled = isMobile ? false : localStorage.getItem('tui_crt') !== 'false';
+    const crtBtn = document.getElementById("toggle-crt-btn");
+    
+    // Apply CRT config on load according to GLOBAL_CRT_CONFIG
+    applyCRTConfig();
 
-    function setCRT(enabled: boolean) {
-      crtEnabled = enabled;
-      if (!isMobile) {
-        localStorage.setItem('tui_crt', String(enabled));
-      }
-      if (crtOverlay) {
-        if (enabled && !isMobile) {
-          crtOverlay.classList.remove('hidden');
-        } else {
-          crtOverlay.classList.add('hidden');
-        }
-      }
-      if (crtIndicator) {
-        crtIndicator.className = enabled 
-          ? 'w-2 h-2 rounded-full bg-emerald-400' 
-          : 'w-2 h-2 rounded-full bg-red-500';
-      }
-    }
-    setCRT(crtEnabled);
-
-    crtBtn?.addEventListener('click', () => {
-      setCRT(!crtEnabled);
+    crtBtn?.addEventListener("click", () => {
+      const currentOpacity = getComputedStyle(document.documentElement).getPropertyValue("--scanline-opacity").trim();
+      const currentlyOn = currentOpacity !== "0" && currentOpacity !== "";
+      applyCRTConfig({ enabled: !currentlyOn });
       playBeep(450, 0.04);
     });
 
-    const sfxBtn = document.getElementById('toggle-sfx-btn');
-    sfxBtn?.addEventListener('click', () => {
+    const sfxBtn = document.getElementById("toggle-sfx-btn");
+    sfxBtn?.addEventListener("click", () => {
       toggleSfx();
       updateSfxUI();
     });
 
     function updateSfxUI() {
       const enabled = isSfxEnabled();
-      const sfxIcon = document.getElementById('sfx-icon');
-      const sfxStatus = document.getElementById('sfx-status');
-      if (sfxIcon) sfxIcon.textContent = enabled ? '🔊' : '🔇';
-      if (sfxStatus) sfxStatus.textContent = enabled ? 'SFX ON' : 'SFX OFF';
+      const sfxIcon = document.getElementById("sfx-icon");
+      const sfxStatus = document.getElementById("sfx-status");
+      if (sfxIcon) sfxIcon.textContent = enabled ? "🔊" : "🔇";
+      if (sfxStatus) sfxStatus.textContent = enabled ? "SFX ON" : "SFX OFF";
     }
 
-    document.getElementById('trigger-matrix-btn')?.addEventListener('click', () => {
-      const win = window as unknown as { toggleMatrix?: (f?: boolean) => void };
-      if (win.toggleMatrix) {
-        win.toggleMatrix(true);
-        playBeep(700, 0.08);
-      }
-    });
+    document
+      .getElementById("trigger-matrix-btn")
+      ?.addEventListener("click", () => {
+        const win = window as unknown as {
+          toggleMatrix?: (f?: boolean) => void;
+        };
+        if (win.toggleMatrix) {
+          win.toggleMatrix(true);
+          playBeep(700, 0.08);
+        }
+      });
 
-    const tabCli = document.getElementById('tab-cli');
-    const tabGui = document.getElementById('tab-gui');
-    const cliView = document.getElementById('view-cli');
-    const guiView = document.getElementById('view-gui');
-    const modeStatusText = document.getElementById('mode-status-text');
+    const tabCli = document.getElementById("tab-cli");
+    const tabGui = document.getElementById("tab-gui");
+    const cliView = document.getElementById("view-cli");
+    const guiView = document.getElementById("view-gui");
+    const modeStatusText = document.getElementById("mode-status-text");
 
-    function switchMode(mode: 'cli' | 'gui') {
-      const targetMode = isMobile ? 'gui' : mode;
-      playBeep(targetMode === 'cli' ? 500 : 700, 0.05);
+    function switchMode(mode: "cli" | "gui") {
+      const targetMode = isMobile ? "gui" : mode;
+      playBeep(targetMode === "cli" ? 500 : 700, 0.05);
 
-      if (targetMode === 'cli') {
-        cliView?.classList.remove('hidden');
-        guiView?.classList.add('hidden');
+      if (targetMode === "cli") {
+        cliView?.classList.remove("hidden");
+        guiView?.classList.add("hidden");
 
-        tabCli?.classList.add('bg-[var(--border-color)]', 'text-[var(--fg-bright)]', 'border-b-2', 'border-[var(--accent)]');
-        tabCli?.classList.remove('text-[var(--fg-dim)]');
+        tabCli?.classList.add(
+          "bg-[var(--border-color)]",
+          "text-[var(--fg-bright)]",
+          "border-b-2",
+          "border-[var(--accent)]",
+        );
+        tabCli?.classList.remove("text-[var(--fg-dim)]");
 
-        tabGui?.classList.remove('bg-[var(--border-color)]', 'text-[var(--fg-bright)]', 'border-b-2', 'border-[var(--accent)]');
-        tabGui?.classList.add('text-[var(--fg-dim)]');
+        tabGui?.classList.remove(
+          "bg-[var(--border-color)]",
+          "text-[var(--fg-bright)]",
+          "border-b-2",
+          "border-[var(--accent)]",
+        );
+        tabGui?.classList.add("text-[var(--fg-dim)]");
 
-        if (modeStatusText) modeStatusText.textContent = 'CLI';
+        if (modeStatusText) modeStatusText.textContent = "CLI";
 
-        const cliInput = document.getElementById('cli-input') as HTMLInputElement;
+        const cliInput = document.getElementById(
+          "cli-input",
+        ) as HTMLInputElement;
         if (cliInput) setTimeout(() => cliInput.focus(), 100);
       } else {
-        guiView?.classList.remove('hidden');
-        cliView?.classList.add('hidden');
+        guiView?.classList.remove("hidden");
+        cliView?.classList.add("hidden");
 
-        tabGui?.classList.add('bg-[var(--border-color)]', 'text-[var(--fg-bright)]', 'border-b-2', 'border-[var(--accent)]');
-        tabGui?.classList.remove('text-[var(--fg-dim)]');
+        tabGui?.classList.add(
+          "bg-[var(--border-color)]",
+          "text-[var(--fg-bright)]",
+          "border-b-2",
+          "border-[var(--accent)]",
+        );
+        tabGui?.classList.remove("text-[var(--fg-dim)]");
 
-        tabCli?.classList.remove('bg-[var(--border-color)]', 'text-[var(--fg-bright)]', 'border-b-2', 'border-[var(--accent)]');
-        tabCli?.classList.add('text-[var(--fg-dim)]');
+        tabCli?.classList.remove(
+          "bg-[var(--border-color)]",
+          "text-[var(--fg-bright)]",
+          "border-b-2",
+          "border-[var(--accent)]",
+        );
+        tabCli?.classList.add("text-[var(--fg-dim)]");
 
-        if (modeStatusText) modeStatusText.textContent = 'GUI';
+        if (modeStatusText) modeStatusText.textContent = "GUI";
       }
     }
 
     if (isMobile) {
-      switchMode('gui');
+      switchMode("gui");
     }
 
-    tabCli?.addEventListener('click', () => switchMode('cli'));
-    tabGui?.addEventListener('click', () => switchMode('gui'));
+    tabCli?.addEventListener("click", () => switchMode("cli"));
+    tabGui?.addEventListener("click", () => switchMode("gui"));
 
-    (window as unknown as { switchTuiMode: (mode: 'cli' | 'gui') => void }).switchTuiMode = switchMode;
+    (
+      window as unknown as { switchTuiMode: (mode: "cli" | "gui") => void }
+    ).switchTuiMode = switchMode;
   });
 </script>

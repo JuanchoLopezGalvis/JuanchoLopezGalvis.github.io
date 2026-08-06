@@ -2,6 +2,12 @@
 import { PORTFOLIO_DATA } from "../data/portfolio";
 
 const { developer } = PORTFOLIO_DATA;
+
+if (developer.palette && developer.palette.length > 8) {
+  throw new Error(
+    `[PORTFOLIO BUILD ERROR]: The "palette" array in src/data/portfolio.ts exceeds maximum limit of 8 colors! (Found ${developer.palette.length} colors). Please reduce to at most 8 colors.`
+  );
+}
 ---
 
 <div
@@ -17,20 +23,7 @@ const { developer } = PORTFOLIO_DATA;
     <div
       class="lg:col-span-5 text-[var(--fg-bright)] overflow-x-auto whitespace-pre font-bold select-none leading-none text-[11px] md:text-xs"
     >
-      {
-        `
-    _    _     _______  __
-   / \\  | |   | ____\\ \\/ /
-  / _ \\ | |   |  _|  \\  / 
- / ___ \\| |___| |___ /  \\ 
-/_/   \\_\\_____|_____/_/\\_\\
-  ____  _______   ______   ___  _   _ 
- |  _ \\| ____\\ \\ / / ___| / _ \\| \\ | |
- | | | |  _|  \\ V /\\___ \\| | | |  \\| |
- | |_| | |___  | |  ___) | |_| | |\\  |
- |____/|_____| |_| |____/ \\___/|_| \\_|
-`
-      }
+      {developer.asciiBanner}
       <div
         class="mt-5 ml-3 text-[var(--fg-dim)] text-[10px] flex items-center gap-2.5 select-none"
       >
@@ -45,7 +38,7 @@ const { developer } = PORTFOLIO_DATA;
           ></span>
         </span>
         <span class="font-bold tracking-wider text-emerald-400"
-          >STATUS: OPEN FOR COLLABORATIONS</span
+          >{developer.status}</span
         >
       </div>
     </div>
@@ -95,17 +88,26 @@ const { developer } = PORTFOLIO_DATA;
         </div>
       </div>
 
-      <div class="pt-3 flex items-center gap-1.5">
+      <div class="pt-3 flex items-center gap-1.5 flex-wrap">
         <span class="text-[10px] text-[var(--fg-dim)] mr-2">PALETTE:</span>
-        <span class="w-4 h-4 bg-black inline-block border border-gray-700"
-        ></span>
-        <span class="w-4 h-4 bg-red-600 inline-block"></span>
-        <span class="w-4 h-4 bg-green-500 inline-block"></span>
-        <span class="w-4 h-4 bg-yellow-500 inline-block"></span>
-        <span class="w-4 h-4 bg-blue-500 inline-block"></span>
-        <span class="w-4 h-4 bg-purple-500 inline-block"></span>
-        <span class="w-4 h-4 bg-cyan-400 inline-block"></span>
-        <span class="w-4 h-4 bg-white inline-block"></span>
+        {(
+          developer.palette || [
+            "#0f0f0f",
+            "#ef4444",
+            "#22c55e",
+            "#eab308",
+            "#3b82f6",
+            "#a855f7",
+            "#06b6d4",
+            "#f8fafc",
+          ]
+        ).map((color) => (
+          <span
+            class="w-4 h-4 inline-block border border-gray-700/60 shadow-sm"
+            style={`background-color: ${color};`}
+            title={color}
+          ></span>
+        ))}
       </div>
     </div>
   </div>

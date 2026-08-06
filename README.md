@@ -104,6 +104,7 @@ _Screenshot:_
 
 ### ⚪ 5. Retro Monochrome (`mono`)
 
+
 > Crisp minimalist monochrome high-contrast theme designed for maximum readability and paper terminal aesthetics.
 
 | UI Element          | CSS Variable     | Hex Color | Visual Swatch                                                 |
@@ -118,6 +119,21 @@ _Screenshot:_
 _Screenshot:_
 
 ![Retro Monochrome Theme Screenshot](/themes/Monochrome.png)
+
+---
+
+### ☕ 6. Cappuccino (`cappuccino`)
+
+> Warm roasted espresso brown & creamy golden caramel CRT glow inspired by cozy coffee shop aesthetics.
+
+| UI Element          | CSS Variable     | Hex Color | Visual Swatch                                                 |
+| :------------------ | :--------------- | :-------- | :------------------------------------------------------------ |
+| **Main Text**       | `--fg-main`      | `#F5E6D3` | ![](https://img.shields.io/badge/-%23F5E6D3-F5E6D3) `#F5E6D3` |
+| **Bright Text**     | `--fg-bright`    | `#FFFFFF` | ![](https://img.shields.io/badge/-%23FFFFFF-FFFFFF) `#FFFFFF` |
+| **Accent Caramel**  | `--accent`       | `#E69A58` | ![](https://img.shields.io/badge/-%23E69A58-E69A58) `#E69A58` |
+| **Background**      | `--bg-main`      | `#1B1411` | ![](https://img.shields.io/badge/-%231B1411-1B1411) `#1B1411` |
+| **Card Background** | `--bg-card`      | `#251C18` | ![](https://img.shields.io/badge/-%23251C18-251C18) `#251C18` |
+| **Border Line**     | `--border-color` | `#4A352C` | ![](https://img.shields.io/badge/-%234A352C-4A352C) `#4A352C` |
 
 ---
 
@@ -218,6 +234,11 @@ export const PORTFOLIO_DATA = {
     linkedin: "https://linkedin.com/in/yourhandle",
     location: "San Francisco, CA",
     status: "🟢 OPEN FOR COLLABORATIONS",
+    CLI_EMOJI: "🫐",
+    palette: [
+      "#0f0f0f", "#ef4444", "#22c55e", "#eab308",
+      "#3b82f6", "#a855f7", "#06b6d4", "#f8fafc"
+    ],
     bio: "Write your personal bio and engineering background here...",
     quote: "\"Code is like humor. When you have to explain it, it’s bad.\"",
     specs: {
@@ -230,6 +251,9 @@ export const PORTFOLIO_DATA = {
     }
   },
 ```
+
+> [!WARNING]
+> **Color Palette Limit**: The `palette` array supports a **maximum of 8 hex colors**. Specifying more than 8 colors will trigger a build-time assertion error during `npm run build` to prevent layout overflow in Neofetch system info cards!
 
 ### 2. Edit Your Skills Matrix
 
@@ -275,31 +299,68 @@ collabs: [
 
 ### 4. How to Edit Your ASCII Art Banner
 
-1. Open **`src/components/Neofetch.astro`**.
-2. Locate the multiline ASCII string inside `{` ... `}` near line 14:
-   ```astro
-   {`
+1. Open **`src/data/portfolio.ts`**.
+2. Locate `asciiBanner` inside `PORTFOLIO_DATA.developer`:
+   ```typescript
+   asciiBanner: `
        _    _     _______  __
-      / \  | |   | ____\ \/ /
-     / _ \ | |   |  _|  \  /
-    / ___ \| |___| |___ /  \
-   /_/   \_\_____|_____/_/\_\
-   `}
+      / \\  | |   | ____\\ \\/ /
+     / _ \\ | |   |  _|  \\  / 
+    / ___ \\| |___| |___ /  \\ 
+   /_/   \\_\\_____|_____/_/\\_\\
+   `,
    ```
 3. Generate your own custom ASCII text using a free online tool like [FIGlet Generator](https://patorjk.com/software/taag/) (recommended fonts: _ANSI Shadow_, _Slant_, or _Standard_).
-4. Paste your new ASCII string inside the backticks.
+4. Paste your new ASCII string inside the backticks of `asciiBanner`.
 
-### 5. Customizing Themes & Styling
+### 5. Customizing & Adding Custom Themes
 
-Themes are defined in `src/styles/global.css` using CSS custom properties:
+Custom themes are centrally managed in **`src/config/themeConfig.ts`**. To add your own custom theme:
 
-- `--bg-main`: Background color.
-- `--fg-main`: Text color.
-- `--accent`: Accent color.
+1. Open `src/config/themeConfig.ts`.
+2. Add a new theme object to the `CUSTOM_THEMES` array:
+   ```typescript
+   export const CUSTOM_THEMES: ThemeConfig[] = [
+     {
+       id: "gold",
+       name: "Matrix Gold",
+       emoji: "🟡",
+       description: "Golden digital rain phosphor glow",
+       colors: {
+         bgMain: "#141004",
+         bgCard: "#1f1906",
+         bgCardHover: "#2d2409",
+         fgMain: "#ffd700",
+         fgDim: "#b39700",
+         fgBright: "#ffea70",
+         accent: "#ffae00",
+         accentSecondary: "#ffaa00",
+         borderColor: "#4a3b00",
+         borderActive: "#ffd700",
+         glowColor: "rgba(255, 215, 0, 0.25)",
+         selectionBg: "#4a3b00",
+         selectionFg: "#ffd700",
+         statusBarBg: "#0a0802",
+       },
+     },
+   ];
+   ```
+3. Your new theme will automatically appear in the header dropdown menu and be recognized by the `theme <id>` CLI command!
 
-To add a new theme or modify colors, adjust the CSS variable blocks in `src/styles/global.css`.
+### 6. Customizing Global CRT Filter Strength & Intensity
 
-### 6. Customizing Favicon
+CRT Filter scanline intensity and vignette shadows apply globally across **all themes**. You can adjust the default preconfigured values in **`src/config/themeConfig.ts`**:
+
+```typescript
+export const GLOBAL_CRT_CONFIG: CRTConfig = {
+  enabled: true,
+  intensity: "medium", // Presets: "low" | "medium" | "high" | "ultra"
+  scanlineOpacity: 0.20, // 0.0 (clean) to 1.0 (heavy scanlines)
+  vignetteOpacity: 0.65,  // 0.0 (clean) to 1.0 (dark corner shadow)
+};
+```
+
+### 7. Customizing Favicon
 
 Replace `public/favicon.svg` with your own SVG logo or icon.
 

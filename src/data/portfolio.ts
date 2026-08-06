@@ -19,6 +19,17 @@ export interface SkillCategory {
   skills: { name: string; level: number; experience: string; tag: string }[];
 }
 
+export type Max8Colors =
+  | []
+  | [string]
+  | [string, string]
+  | [string, string, string]
+  | [string, string, string, string]
+  | [string, string, string, string, string]
+  | [string, string, string, string, string, string]
+  | [string, string, string, string, string, string, string]
+  | [string, string, string, string, string, string, string, string];
+
 export const PORTFOLIO_DATA = {
   developer: {
     name: "Alex Devson",
@@ -30,10 +41,33 @@ export const PORTFOLIO_DATA = {
     linkedin: "https://linkedin.com",
     twitter: "https://x.com",
     location: "San Francisco, CA // UTC-7",
-    status: "🟢 OPEN FOR COLLABORATIONS & CONTRACTS",
+    status: " OPEN FOR COLLABORATIONS & CONTRACTS",
+    CLI_EMOJI: "🫐",
+    palette: [
+      "#0f0f0f",
+      "#ef4444",
+      "#22c55e",
+      "#eab308",
+      "#3b82f6",
+      "#a855f7",
+      "#06b6d4",
+      "#f8fafc",
+    ],
     bio: "Passionate systems & web engineer with 7+ years of experience building high-throughput edge systems, interactive web applications, and developer tools. Active open-source contributor and collaborative team player.",
     quote:
       '"Code is like humor. When you have to explain it, it’s bad." – Cory House',
+    asciiBanner: `
+    _    _     _______  __
+   / \\  | |   | ____\\ \\/ /
+  / _ \\ | |   |  _|  \\  / 
+ / ___ \\| |___| |___ /  \\ 
+/_/   \\_\\_____|_____/_/\\_\\
+  ____  _______   ______   ___  _   _ 
+ |  _ \\| ____\\ \\ / / ___| / _ \\| \\ | |
+ | | | |  _|  \\ V /\\___ \\| | | |  \\| |
+ | |_| | |___  | |  ___) | |_| | |\\  |
+ |____/|_____| |_| |____/ \\___/|_| \\_|
+`,
     specs: {
       OS: "Arch Linux x86_64 / macOS Darwin",
       Kernel: "6.10.8-zen1-1-zen",
