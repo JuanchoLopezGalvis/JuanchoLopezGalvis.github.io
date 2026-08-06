@@ -2,6 +2,7 @@
 import { PORTFOLIO_DATA } from '../data/portfolio';
 import Neofetch from './Neofetch.astro';
 import SpotifyWidget from './SpotifyWidget.astro';
+import GamesWidget from './GamesWidget.astro';
 
 const { developer, skills, collabs } = PORTFOLIO_DATA;
 ---
@@ -36,6 +37,9 @@ const { developer, skills, collabs } = PORTFOLIO_DATA;
 
       <!-- Spotify Activity Widget -->
       <SpotifyWidget />
+
+      <!-- Games Activity Widget -->
+      <GamesWidget />
 
       <!-- Quick Metrics -->
       <div class="pt-4 border-t border-[var(--border-color)] space-y-2 text-[11px]">

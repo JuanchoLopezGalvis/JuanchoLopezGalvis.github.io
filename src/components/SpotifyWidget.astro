@@ -67,6 +67,7 @@ const progressPercent = Math.min(
           id="spotify-art"
           src={track.albumArt || ""}
           alt={track.album || "Album Cover"}
+          onerror="this.classList.add('hidden'); document.getElementById('spotify-art-placeholder')?.classList.remove('hidden');"
           class={`w-full h-full object-cover transition-all duration-300 ${track.albumArt ? "" : "hidden"}`}
         />
       </div>
@@ -140,6 +141,10 @@ const progressPercent = Math.min(
     function updateArt(artUrl: string) {
       if (artEl) {
         if (artUrl) {
+          artEl.onerror = () => {
+            artEl.classList.add("hidden");
+            if (artPlaceholderEl) artPlaceholderEl.classList.remove("hidden");
+          };
           artEl.src = artUrl;
           artEl.classList.remove("hidden");
           if (artPlaceholderEl) artPlaceholderEl.classList.add("hidden");

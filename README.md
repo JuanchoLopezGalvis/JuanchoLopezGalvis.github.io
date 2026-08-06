@@ -389,6 +389,23 @@ export const SPOTIFY_CONFIG: SpotifyConfig = {
 > - **Auto-Hide**: Leaving `lanyardUserId: ""` empty automatically hides the Spotify widget from the GUI dashboard sidebar.
 > - **Cookie Persistence**: When offline or not actively playing music, the widget automatically restores your most recently played song from browser cookies (`tui_last_played_track`).
 
+### 9. Live Gaming Activity & RAWG Game Icon Integration
+
+The portfolio includes a **Live Gaming Activity Widget** that automatically streams your active PC/Mac game activity via Discord Lanyard WebSockets (`wss://api.lanyard.rest/socket`).
+
+Open **`src/config/gamesConfig.ts`** to configure your Discord User ID:
+
+```typescript
+export const GAMES_CONFIG: GamesConfig = {
+  enabled: true,
+  // Provide your Discord User ID here to automatically stream live gaming activity!
+  lanyardUserId: "YOUR_DISCORD_USER_ID_HERE",
+};
+```
+
+> [!NOTE]
+> - **Auto-Hiding Widget**: The Games Widget automatically hides from the GUI dashboard sidebar when you are not playing a game, and smoothly pops up the moment you launch any game (Roblox, Minecraft, Valorant, GTA V, CS2, etc.).
+> - **Automatic Game Cover Resolution**: Automatically resolves official game icons and high-resolution cover art via RAWG Games API search and Discord application asset endpoints.
 
 ---
 
