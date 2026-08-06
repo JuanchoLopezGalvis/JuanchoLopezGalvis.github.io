@@ -135,6 +135,10 @@ _Screenshot:_
 | **Card Background** | `--bg-card`      | `#251C18` | ![](https://img.shields.io/badge/-%23251C18-251C18) `#251C18` |
 | **Border Line**     | `--border-color` | `#4A352C` | ![](https://img.shields.io/badge/-%234A352C-4A352C) `#4A352C` |
 
+_Screenshot:_
+
+![Cappuccino Theme Screenshot](/themes/Cappuccino.png)
+
 ---
 
 ## ⚙️ Manual way Setup
