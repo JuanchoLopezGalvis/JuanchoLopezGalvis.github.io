@@ -1,17 +1,34 @@
 # 🖥️ Retro TUI Portfolio Template (Astro.js + Tailwind CSS)
 
+[![Astro.js](https://img.shields.io/badge/Astro.js-v5.0-%23BC52EE?style=for-the-badge&logo=astro&logoColor=white)](https://astro.build)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4.0-%2306B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
+[![TypeScript](https://img.shields.io/badge/TypeScript-v5.0-%233178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+
 A feature-rich, high-aesthetic **Terminal User Interface (TUI) Portfolio Template** built with **Astro.js v5** and **Tailwind CSS v4**.
 
 Features a dual-mode experience (Interactive CLI Terminal + Visual TUI Dashboard), 5 vintage CRT color themes, Web Audio API keypress sounds, CRT scanlines overlay, and a Matrix digital rain easter egg.
 
 ---
 
+## 🌐 Live Preview
+
+Check out the live interactive portfolio website demo:
+
+👉 **[🚀 Launch Live Demo Website](https://astro-tui-portfolio.netlify.app)**
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/baf3780d-a899-4055-8470-ae8295051252/deploy-status)](https://app.netlify.com/projects/astro-tui-portfolio/deploys)
+
 ## ⚡ Key Features
 
 - **Dual-Mode Layout**:
   - **`>_ CLI Mode`**: Bash-like terminal prompt with command history (`Up`/`Down` arrows), command auto-completion (`Tab`), clear screen, and instant command execution.
   - **`[#] GUI Dashboard`**: Visual retro window layout with a collapsible sidebar explorer (`~/about.txt`, `~/skills.sh`, `~/collabs.md`, `~/contact.txt`), category skill meters, and interactive collab cards.
+- **🎮 Live Gaming RPC & RAWG Integration**: Real-time PC/Mac gaming activity powered by Discord Lanyard WebSockets (`wss://api.lanyard.rest/socket`) with automatic RAWG Games API cover lookup, session elapsed timer, animated bouncing gamepad icon (`🎮`), and auto-hiding sidebar widget.
+- **🎵 Live Spotify RPC Activity**: Real-time audio RPC streaming with live 1-second ticking progress bars in CLI mode, pause/offline status detection, and cookie persistence.
+- **✉️ FormSubmit AJAX Email Engine**: Real-time AJAX email transmission (`https://formsubmit.co/ajax/`) with live loading states ("TRANSMITTING..."), status alerts, and celebratory confetti particles.
+- **🔗 Interactive CLI Profile Links (`links`)**: Added `links` (`socials` / `urls`) command to display interactive clickable profile links for GitHub, LinkedIn, 𝕏/Twitter, and Email directly inside CLI mode.
 - **5 CRT Color Themes**: Switch between Phosphor Green, Amber Monitor, Cyberpunk Cyan, Dracula Synth, and Retro Monochrome.
+- **🎨 Custom Color Palettes & Skill Metrics**: Configurable developer theme palettes with strict 8-color validation error handling and Web3/Blockchain skill metrics.
 - **Retro CRT Visual Effects**: Toggleable CRT scanline overlays, screen glass glare, and scanline flicker.
 - **Web Audio API Synthesizer**: Pure JavaScript audio synthesizer generating retro keypress clicks, command success chimes, and error double-beeps.
 - **Digital Matrix Rain Overlay**: Canvas matrix rain animation triggered via `matrix` command or header button.
