@@ -257,7 +257,7 @@ export const PORTFOLIO_DATA = {
 ```
 
 > [!WARNING]
-> **Color Palette Limit**: The `palette` array supports a **maximum of 8 hex colors**. Specifying more than 8 colors will trigger a build-time assertion error during `npm run build` to prevent layout overflow in Neofetch system info cards!
+> **Color Palette Limit**: The `palette` array supports a **maximum of 8 hex colors**.
 
 ### 2. Edit Your Skills Matrix
 
@@ -368,6 +368,73 @@ export const GLOBAL_CRT_CONFIG: CRTConfig = {
 
 Replace `public/favicon.svg` with your own SVG logo or icon.
 
+### 8. Live Spotify Activity & Discord Lanyard Integration
+
+The portfolio includes a **Live Spotify Now Playing / Last Played Activity Widget** and `spotify` CLI command powered by real-time WebSockets (`wss://api.lanyard.rest/socket`).
+
+Open **`src/config/spotifyConfig.ts`** to configure your Discord User ID:
+
+```typescript
+export const SPOTIFY_CONFIG: SpotifyConfig = {
+  enabled: true,
+  // Provide your Discord User ID here to automatically stream live Spotify activity!
+  lanyardUserId: "YOUR_DISCORD_USER_ID_HERE",
+};
+```
+
+> [!NOTE]
+> - **Disabled by Default**: The Spotify Activity widget is **disabled by default** (`lanyardUserId: ""`). Simply set your Discord User ID in `src/config/spotifyConfig.ts` to activate it. Leaving `lanyardUserId: ""` empty automatically keeps the widget hidden.
+> - **Join Lanyard Server (Required)**: You **must join the Lanyard Discord Server** ([discord.gg/lanyard](https://discord.gg/lanyard)) for Lanyard to monitor your Discord presence and stream your Spotify RPC data.
+> - **Discord Running in Background**: Discord (Desktop or Web) must be running on your machine while playing Spotify so Discord can broadcast your live listening activity to Lanyard.
+> - **How to get your Discord User ID**: Enable Developer Mode in Discord settings (User Settings > Advanced > Developer Mode), then right-click your profile picture and select **Copy User ID**.
+> - **Cookie Persistence**: When offline or not actively playing music, the widget automatically restores your most recently played song from browser cookies (`tui_last_played_track`).
+
+### 9. Live Gaming Activity & RAWG Game Icon Integration
+
+The portfolio includes a **Live Gaming Activity Widget** that automatically streams your active PC/Mac game activity via Discord Lanyard WebSockets (`wss://api.lanyard.rest/socket`).
+
+
+
+https://github.com/user-attachments/assets/b48b7e89-4402-48b1-a201-9028e0d75327
+
+
+Open **`src/config/gamesConfig.ts`** to configure your Discord User ID:
+
+```typescript
+export const GAMES_CONFIG: GamesConfig = {
+  enabled: true,
+  // Provide your Discord User ID here to automatically stream live gaming activity!
+  lanyardUserId: "YOUR_DISCORD_USER_ID_HERE",
+};
+```
+
+> [!NOTE]
+> - **Disabled by Default**: The Games widget is **disabled by default** (`lanyardUserId: ""`). Set your Discord User ID in `src/config/gamesConfig.ts` to activate it.
+> - **Auto-Hiding Widget**: The Games Widget automatically hides from the GUI dashboard sidebar when you are not actively playing a game, and smoothly pops up the moment you launch any game (Roblox, Minecraft, Valorant, GTA V, CS2, etc.).
+> - **Automatic Game Cover Resolution**: Automatically resolves official game icons and high-resolution cover art via RAWG Games API search and Discord application asset endpoints.
+
+### 10. Contact Form Mail Setup (FormSubmit Integration)
+
+The contact form in the **TRANSMIT MAIL // CONTACT** section is pre-configured with [FormSubmit.co](https://formsubmit.co) AJAX endpoint — **no backend code or API keys required!**
+
+#### 1. Set Your Email Address
+Open `src/data/portfolio.ts` and update `email` inside `PORTFOLIO_DATA.developer`:
+
+```typescript
+export const PORTFOLIO_DATA = {
+  developer: {
+    email: "your.real.email@domain.com",
+    // ...
+  }
+};
+```
+
+#### 2. First-Time 1-Click Email Activation
+1. Once deployed, submit a test message using the contact form on your portfolio website.
+2. Check your inbox (`your.real.email@domain.com`) for an activation email sent by **FormSubmit.co**.
+3. Click **"Activate Form"**.
+4. That's it! All future messages submitted by site visitors will be delivered directly to your inbox instantly.
+
 ---
 
 ## 💻 CLI Commands Reference
@@ -381,7 +448,9 @@ Visitors can execute the following interactive commands inside CLI Mode:
 | `skills`   | Display interactive skill progress meters      | `skills` (or `cat skills.sh`)               |
 | `collabs`  | Display team collaborations & partner projects | `collabs` (or `cat collabs.md`)             |
 | `neofetch` | Display ASCII banner & system hardware specs   | `neofetch`                                  |
-| `contact`  | Display email & social links                   | `contact` (or `cat contact.txt`)            |
+| `contact`  | Display email & social links                   | `contact` (or `mail`)                       |
+| `links`    | Display interactive links to GitHub, LinkedIn, 𝕏 & Email | `links` (or `socials`, `urls`)   |
+| `spotify`  | Display Spotify Now Playing & Audio RPC status | `spotify` (or `np`)                         |
 | `theme`    | Switch color theme                             | `theme <green\|amber\|cyan\|dracula\|mono>` |
 | `matrix`   | Toggle digital rain CRT canvas animation       | `matrix`                                    |
 | `crt`      | Toggle CRT scanlines screen overlay            | `crt`                                       |

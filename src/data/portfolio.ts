@@ -36,7 +36,7 @@ export const PORTFOLIO_DATA = {
     handle: "alexdevson",
     title: "Senior Full Stack & Systems Engineer",
     alias: "root@quantum-box",
-    email: "alex.devson@kernel.dev",
+    email: "alexdevson@dev.com",
     github: "https://github.com/nivinvysakh/astro-tui-portfolio",
     linkedin: "https://linkedin.com",
     twitter: "https://x.com",
@@ -178,6 +178,18 @@ export const PORTFOLIO_DATA = {
         },
       ],
     },
+    {
+      category: "Web3 & Blockchain",
+      icon: "🔗",
+      skills: [
+        { name: "Solidity", level: 75, experience: "2 yrs", tag: "INTERMEDIATE" },
+        { name: "EVM", level: 80, experience: "3 yrs", tag: "ADVANCED" },
+        { name: "Hardhat", level: 85, experience: "4 yrs", tag: "PRO" },
+        { name: "Truffle", level: 80, experience: "3 yrs", tag: "ADVANCED" },
+        { name: "Ethers.js", level: 90, experience: "5 yrs", tag: "PRO" },
+        { name: "Web3.js", level: 85, experience: "4 yrs", tag: "PRO" },
+      ],
+    },
   ] as SkillCategory[],
 
   collabs: [
@@ -279,9 +291,19 @@ export const PORTFOLIO_DATA = {
       usage: "neofetch",
     },
     {
+      name: "spotify",
+      desc: "Display Spotify Now Playing song activity & Audio RPC status",
+      usage: "spotify [or np, nowplaying]",
+    },
+    {
       name: "contact",
       desc: "Display contact info and social handles",
       usage: "contact [or mail]",
+    },
+    {
+      name: "links",
+      desc: "Display interactive links to GitHub, LinkedIn, X/Twitter & Email",
+      usage: "links [or socials, urls]",
     },
     {
       name: "theme",
