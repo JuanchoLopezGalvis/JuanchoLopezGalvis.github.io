@@ -20,8 +20,8 @@ export interface GamesConfig {
  * Stream live gaming activity from your Discord presence via Lanyard API!
  */
 export const GAMES_CONFIG: GamesConfig = {
-  enabled: true,
-  lanyardUserId: "957196694393614367",
+  enabled: false,
+  lanyardUserId: "your_discord_id",
 };
 
 const gameIconCache: Record<string, string> = {};
@@ -44,7 +44,7 @@ export async function fetchGameIconByName(gameName: string): Promise<string> {
         return img;
       }
     }
-  } catch {}
+  } catch { }
 
   return "";
 }

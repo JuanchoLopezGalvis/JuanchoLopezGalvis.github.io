@@ -7,6 +7,10 @@ export interface SpotifyTrack {
   songUrl?: string;
   progressMs: number;
   durationMs: number;
+  timestamps?: {
+    start?: number;
+    end?: number;
+  };
 }
 
 export interface SpotifyConfig {
@@ -19,9 +23,9 @@ export interface SpotifyConfig {
  * Provide your Discord User ID below to automatically stream live Spotify activity via Lanyard API!
  */
 export const SPOTIFY_CONFIG: SpotifyConfig = {
-  enabled: true,
+  enabled: false,
   // Provide your Discord User ID here (e.g. lanyardUserId: "123456789012345678")
-  lanyardUserId: "957196694393614367",
+  lanyardUserId: "your_discord_id",
 };
 
 /**
@@ -32,24 +36,37 @@ export async function getSpotifyActivity(): Promise<SpotifyTrack | null> {
     try {
       const res = await fetch(`https://api.lanyard.rest/v1/users/${SPOTIFY_CONFIG.lanyardUserId}`);
       const data = await res.json();
-      if (data.success && data.data?.spotify) {
-        const s = data.data.spotify;
-        const now = Date.now();
-        const start = s.timestamps?.start || now;
-        const end = s.timestamps?.end || now + 180000;
-        return {
-          isPlaying: true,
-          title: s.song,
-          artist: s.artist,
-          album: s.album,
-          albumArt: s.album_art_url,
-          songUrl: `https://open.spotify.com/track/${s.track_id}`,
-          progressMs: Math.max(0, now - start),
-          durationMs: Math.max(1, end - start),
-        };
+      if (data.success) {
+        if (data.data?.spotify) {
+          const s = data.data.spotify;
+          const now = Date.now();
+          const start = s.timestamps?.start || now;
+          const end = s.timestamps?.end || now + 180000;
+          return {
+            isPlaying: true,
+            title: s.song,
+            artist: s.artist,
+            album: s.album,
+            albumArt: s.album_art_url,
+            songUrl: `https://open.spotify.com/track/${s.track_id}`,
+            progressMs: Math.max(0, now - start),
+            durationMs: Math.max(1, end - start),
+            timestamps: { start, end },
+          };
+        } else {
+          // Spotify is paused / stopped / inactive
+          return {
+            isPlaying: false,
+            title: "No Active Track",
+            artist: "Offline",
+            album: "Spotify Inactive",
+            progressMs: 0,
+            durationMs: 180000,
+          };
+        }
       }
     } catch {
-      // Fallback on network error
+      // Network error fallback
     }
   }
 
