@@ -411,6 +411,7 @@ import { PORTFOLIO_DATA } from "../data/portfolio";
               <span class="px-2 py-0.5 text-[10px] bg-[var(--border-color)] text-[var(--accent)] font-bold uppercase">${c.partnerType}</span>
             </div>
             <div class="text-[var(--accent)] font-bold">Partner: <span class="text-[var(--fg-bright)]">${c.partner}</span> // Role: <span class="text-emerald-400">${c.role}</span></div>
+            ${c.asciiLogo ? `<pre class="my-2 p-2 bg-[var(--bg-main)] text-[10px] text-[var(--fg-bright)] overflow-x-auto leading-tight select-none border border-[var(--border-color)] font-mono whitespace-pre">${c.asciiLogo}</pre>` : ""}
             <p class="text-[var(--fg-main)] leading-relaxed">${c.description}</p>
             <ul class="list-disc list-inside text-[var(--fg-dim)] space-y-0.5">
               ${c.contributions.map((cont) => `<li>${cont}</li>`).join("")}

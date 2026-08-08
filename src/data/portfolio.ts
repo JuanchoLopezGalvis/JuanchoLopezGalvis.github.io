@@ -210,10 +210,10 @@ export const PORTFOLIO_DATA = {
       ],
       techStack: ["Rust", "Tokio", "QUIC Protocol", "WebAssembly"],
       link: "https://github.com",
-      asciiLogo: `  +--------------------+
-  | HYPEREDGE PROTOCOL |
-  | [STATUS: ACTIVE]   |
-  +--------------------+`,
+      asciiLogo: `+--------------------+
+| HYPEREDGE PROTOCOL |
+| [STATUS: ACTIVE]   |
++--------------------+`,
     },
     {
       id: "collab-astrosynth",
@@ -238,9 +238,9 @@ export const PORTFOLIO_DATA = {
         "Canvas",
       ],
       link: "https://github.com",
-      asciiLogo: `  /\\_/\\  AETHERIA
- ( o.o ) [AUDIO LABS]
-  > ^ <  ♪ ♫ ♩ ♬`,
+      asciiLogo: `/\\_/\\   AETHERIA
+( o.o ) [AUDIO LABS]
+ > ^ <  ♪ ♫ ♩ ♬`,
     },
     {
       id: "collab-neural-cli",
@@ -258,9 +258,9 @@ export const PORTFOLIO_DATA = {
       ],
       techStack: ["Node.js", "TypeScript", "Ollama API", "Inquirer.js"],
       link: "https://github.com",
-      asciiLogo: `  [KERNEL-AI COLLAB]
-  Intent --> [Local LLM]
-  Execution --> bash -c`,
+      asciiLogo: `[KERNEL-AI COLLAB]
+Intent    --> [Local LLM]
+Execution --> bash -c`,
     },
   ] as CollabItem[],
 
