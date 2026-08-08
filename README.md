@@ -18,6 +18,37 @@ Check out the live interactive portfolio website demo:
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/baf3780d-a899-4055-8470-ae8295051252/deploy-status)](https://app.netlify.com/projects/astro-tui-portfolio/deploys)
 
+---
+
+## 📸 Screenshots & Video Demo
+
+### 🎮 Live Gaming & Spotify RPC Activity Demo
+
+https://github.com/user-attachments/assets/b48b7e89-4402-48b1-a201-9028e0d75327
+
+<br />
+
+### 🎨 Retro CRT Theme Previews
+
+| **🟢 Phosphor Green Theme** | **🟠 Amber Monitor Theme** |
+| :---: | :---: |
+| ![Phosphor Green](/themes/Phosphor_Green.png) | ![Amber Monitor](/themes/Amber_CRT.png) |
+
+| **🔵 Cyberpunk Cyan Theme** | **🟣 Dracula Synth Theme** |
+| :---: | :---: |
+| ![Cyberpunk Cyan](/themes/Cyber_Cyan.png) | ![Dracula Synth](/themes/Dracula_Synth.png) |
+
+| **⚪ Retro Monochrome Theme** | **☕ Cappuccino Theme** |
+| :---: | :---: |
+| ![Retro Monochrome](/themes/Monochrome.png) | ![Cappuccino Theme](/themes/Cappuccino.png) |
+
+
+### 🍃 404 Page
+
+![404](/themes/404.png)
+
+---
+
 ## ⚡ Key Features
 
 - **Dual-Mode Layout**:
@@ -55,9 +86,7 @@ The portfolio template includes **5 built-in retro CRT themes** that can be togg
 | **Card Background** | `--bg-card`      | `#0D1A0E` | ![](https://img.shields.io/badge/-%230D1A0E-0D1A0E) `#0D1A0E` |
 | **Border Line**     | `--border-color` | `#00441B` | ![](https://img.shields.io/badge/-%2300441B-00441B) `#00441B` |
 
-_Screenshot:_
 
-![Phosphor Green Theme Screenshot](/themes/Phosphor_Green.png)
 
 ---
 
@@ -74,9 +103,7 @@ _Screenshot:_
 | **Card Background** | `--bg-card`      | `#1D1306` | ![](https://img.shields.io/badge/-%231D1306-1D1306) `#1D1306` |
 | **Border Line**     | `--border-color` | `#4A3200` | ![](https://img.shields.io/badge/-%234A3200-4A3200) `#4A3200` |
 
-_Screenshot:_
 
-![Amber Monitor Theme Screenshot](/themes/Amber_CRT.png)
 
 ---
 
@@ -93,9 +120,7 @@ _Screenshot:_
 | **Card Background** | `--bg-card`      | `#091920` | ![](https://img.shields.io/badge/-%23091920-091920) `#091920` |
 | **Border Line**     | `--border-color` | `#003D47` | ![](https://img.shields.io/badge/-%23003D47-003D47) `#003D47` |
 
-_Screenshot:_
 
-![Cyberpunk Cyan Theme Screenshot](/themes/Cyber_Cyan.png)
 
 ---
 
@@ -113,9 +138,7 @@ _Screenshot:_
 | **Card Background** | `--bg-card`          | `#191428` | ![](https://img.shields.io/badge/-%23191428-191428) `#191428` |
 | **Border Line**     | `--border-color`     | `#3B2C59` | ![](https://img.shields.io/badge/-%233B2C59-3B2C59) `#3B2C59` |
 
-_Screenshot:_
 
-![Dracula Synth Theme Screenshot](/themes/Dracula_Synth.png)
 
 ---
 
@@ -133,9 +156,7 @@ _Screenshot:_
 | **Card Background** | `--bg-card`      | `#191919` | ![](https://img.shields.io/badge/-%23191919-191919) `#191919` |
 | **Border Line**     | `--border-color` | `#333333` | ![](https://img.shields.io/badge/-%23333333-333333) `#333333` |
 
-_Screenshot:_
 
-![Retro Monochrome Theme Screenshot](/themes/Monochrome.png)
 
 ---
 
@@ -152,9 +173,7 @@ _Screenshot:_
 | **Card Background** | `--bg-card`      | `#251C18` | ![](https://img.shields.io/badge/-%23251C18-251C18) `#251C18` |
 | **Border Line**     | `--border-color` | `#4A352C` | ![](https://img.shields.io/badge/-%234A352C-4A352C) `#4A352C` |
 
-_Screenshot:_
 
-![Cappuccino Theme Screenshot](/themes/Cappuccino.png)
 
 ---
 
@@ -409,10 +428,6 @@ export const SPOTIFY_CONFIG: SpotifyConfig = {
 ### 9. Live Gaming Activity & RAWG Game Icon Integration
 
 The portfolio includes a **Live Gaming Activity Widget** that automatically streams your active PC/Mac game activity via Discord Lanyard WebSockets (`wss://api.lanyard.rest/socket`).
-
-
-
-https://github.com/user-attachments/assets/b48b7e89-4402-48b1-a201-9028e0d75327
 
 
 Open **`src/config/gamesConfig.ts`** to configure your Discord User ID:
