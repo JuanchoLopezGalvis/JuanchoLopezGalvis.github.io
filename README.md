@@ -1,10 +1,10 @@
 # 🖥️ Retro TUI Portfolio Template (Astro.js + Tailwind CSS)
 
-[![Astro.js](https://img.shields.io/badge/Astro.js-v5.0-%23BC52EE?style=for-the-badge&logo=astro&logoColor=white)](https://astro.build)
+[![Astro.js](https://img.shields.io/badge/Astro.js-v7.0-%23BC52EE?style=for-the-badge&logo=astro&logoColor=white)](https://astro.build)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4.0-%2306B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
 [![TypeScript](https://img.shields.io/badge/TypeScript-v5.0-%233178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
 
-A feature-rich, high-aesthetic **Terminal User Interface (TUI) Portfolio Template** built with **Astro.js v5** and **Tailwind CSS v4**.
+A feature-rich, high-aesthetic **Terminal User Interface (TUI) Portfolio Template** built with **Astro.js v7** and **Tailwind CSS v4**.
 
 Features a dual-mode experience (Interactive CLI Terminal + Visual TUI Dashboard), 5 vintage CRT color themes, Web Audio API keypress sounds, CRT scanlines overlay, and a Matrix digital rain easter egg.
 

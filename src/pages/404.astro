@@ -159,9 +159,14 @@ import { PORTFOLIO_DATA } from "../data/portfolio";
     btnMatrix?.addEventListener("click", () => {
       const win = window as unknown as { toggleMatrix?: (f?: boolean) => void };
       if (win.toggleMatrix) {
-        win.toggleMatrix(true);
+        win.toggleMatrix();
         playBeep(700, 0.08);
-        appendConsoleLog("⚡ Matrix rain initiated.", "text-[var(--accent)]");
+        const matrixContainer = document.getElementById("matrix-container");
+        const isActive = matrixContainer && !matrixContainer.classList.contains("hidden");
+        appendConsoleLog(
+          isActive ? "⚡ Matrix rain activated." : "⚡ Matrix rain deactivated.",
+          isActive ? "text-[var(--accent)] font-bold" : "text-[var(--fg-dim)]"
+        );
       }
     });
 
@@ -227,9 +232,14 @@ import { PORTFOLIO_DATA } from "../data/portfolio";
         case "matrix":
           const win = window as unknown as { toggleMatrix?: (f?: boolean) => void };
           if (win.toggleMatrix) {
-            win.toggleMatrix(true);
+            win.toggleMatrix();
             playBeep(700, 0.08);
-            appendConsoleLog("⚡ Matrix rain toggled.", "text-[var(--accent)]");
+            const matrixContainer = document.getElementById("matrix-container");
+            const isActive = matrixContainer && !matrixContainer.classList.contains("hidden");
+            appendConsoleLog(
+              isActive ? "⚡ Matrix rain activated." : "⚡ Matrix rain deactivated.",
+              isActive ? "text-[var(--accent)] font-bold" : "text-[var(--fg-dim)]"
+            );
           }
           break;
 
