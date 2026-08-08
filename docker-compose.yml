@@ -4,7 +4,7 @@ services:
   # URL: http://localhost:4321
   # -------------------------------------------------------------
   tui-portfolio-dev:
-    image: node:20-alpine
+    image: node:22-alpine
     container_name: tui-portfolio-dev
     working_dir: /app
     ports:
