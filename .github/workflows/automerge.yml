@@ -39,7 +39,9 @@ jobs:
           PR_TITLE=$(gh pr view "$PR_URL" --json title -q .title --repo "$REPO")
           PR_BODY=$(gh pr view "$PR_URL" --json body -q .body --repo "$REPO")
 
-          # Inject Co-authored-by to award contribution graph squares to your profile
+          git config --global user.name "nivinvysakh"
+          git config --global user.email "nivinvysakh@icloud.com"
+
           COMMIT_BODY="${PR_BODY}
 
           Co-authored-by: nivin <nivinvysakh@icloud.com>"
@@ -52,4 +54,4 @@ jobs:
         env:
           PR_URL: ${{ github.event.pull_request.html_url }}
           REPO: ${{ github.repository }}
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.DEPENDABOT_PAT }}
