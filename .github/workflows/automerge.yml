@@ -3,10 +3,9 @@ name: Auto Accept Dependabot PRs
 on:
   pull_request_target:
     types:
-      - labeled
       - opened
-      - synchronize
       - reopened
+      - synchronize
       - ready_for_review
 
 permissions:
@@ -14,12 +13,39 @@ permissions:
   pull-requests: write
 
 jobs:
-  auto-merge:
+  dependabot:
+    name: Auto-Approve & Enable Auto-Merge
     runs-on: ubuntu-latest
     if: github.actor == 'dependabot[bot]'
     steps:
-      - name: Enable GitHub Native Auto-Merge
-        run: gh pr merge --auto --squash "$PR_URL"
+      - name: Fetch Dependabot Metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@v2
+        with:
+          github-token: ${{ secrets.DEPENDABOT_PAT || secrets.GITHUB_TOKEN }}
+
+      - name: Auto-Approve Pull Request
+        run: gh pr review --approve "$PR_URL"
         env:
           PR_URL: ${{ github.event.pull_request.html_url }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.DEPENDABOT_PAT || secrets.GITHUB_TOKEN }}
+
+      - name: Enable Auto-Merge with Contribution Attribution
+        run: |
+          PR_TITLE=$(gh pr view "$PR_URL" --json title -q .title)
+          PR_BODY=$(gh pr view "$PR_URL" --json body -q .body)
+
+          # Format squash commit message with Co-authored-by trailer
+          # This ensures GitHub attributes the commit to your profile on your contribution graph
+          COMMIT_BODY="${PR_BODY}
+
+          Co-authored-by: nivin <nivinvysakh@icloud.com>"
+
+          gh pr merge --auto --squash \
+            --subject "$PR_TITLE" \
+            --body "$COMMIT_BODY" \
+            "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.DEPENDABOT_PAT || secrets.GITHUB_TOKEN }}
+
