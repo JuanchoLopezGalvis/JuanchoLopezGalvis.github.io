@@ -22,23 +22,24 @@ jobs:
         id: metadata
         uses: dependabot/fetch-metadata@v2
         with:
-          github-token: ${{ secrets.DEPENDABOT_PAT || secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Auto-Approve Pull Request
         run: |
-          echo "Attempting to approve PR..."
-          gh pr review --approve "$PR_URL" || echo "Note: PR approval via token was skipped or not permitted."
+          echo "Attempting PR approval..."
+          gh pr review --approve "$PR_URL" --repo "$REPO" || echo "Note: PR approval via token skipped."
         env:
           PR_URL: ${{ github.event.pull_request.html_url }}
+          REPO: ${{ github.repository }}
           GH_TOKEN: ${{ secrets.DEPENDABOT_PAT || secrets.GITHUB_TOKEN }}
 
       - name: Enable Auto-Merge with Contribution Attribution
         run: |
           echo "Fetching PR details..."
-          PR_TITLE=$(gh pr view "$PR_URL" --json title -q .title)
-          PR_BODY=$(gh pr view "$PR_URL" --json body -q .body)
+          PR_TITLE=$(gh pr view "$PR_URL" --json title -q .title --repo "$REPO")
+          PR_BODY=$(gh pr view "$PR_URL" --json body -q .body --repo "$REPO")
 
-          # Format squash commit message with Co-authored-by trailer
+          # Inject Co-authored-by to award contribution graph squares to your profile
           COMMIT_BODY="${PR_BODY}
 
           Co-authored-by: nivin <nivinvysakh@icloud.com>"
@@ -47,8 +48,8 @@ jobs:
           gh pr merge --auto --squash \
             --subject "$PR_TITLE" \
             --body "$COMMIT_BODY" \
-            "$PR_URL"
+            "$PR_URL" --repo "$REPO"
         env:
           PR_URL: ${{ github.event.pull_request.html_url }}
-          GH_TOKEN: ${{ secrets.DEPENDABOT_PAT || secrets.GITHUB_TOKEN }}
-
+          REPO: ${{ github.repository }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
