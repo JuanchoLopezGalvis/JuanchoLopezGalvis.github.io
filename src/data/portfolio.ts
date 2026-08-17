@@ -56,9 +56,7 @@ export const PORTFOLIO_DATA = {
     bio: "Passionate systems & web engineer with 7+ years of experience building high-throughput edge systems, interactive web applications, and developer tools. Active open-source contributor and collaborative team player.",
     quote:
       '"Code is like humor. When you have to explain it, it’s bad." – Cory House',
-    asciiBanner: `
-`
-,
+asciiBanner: `
      _ _   _   _    _   _ 
     | | | | | / \\  | \\ | |
  _  | | | | |/ _ \\ |  \\| |
@@ -69,10 +67,8 @@ export const PORTFOLIO_DATA = {
 | |   / _ \\|  _ \\| ____|__  /
 | |  | | | | |_) |  _|   / / 
 | |__| |_| |  __/| |___ / /_ 
-|_____\\___/|_|   |_____/____|                            
-
-
-,
+|_____\\___/|_|   |_____/____|
+`,
 
     specs: {
       OS: "Arch Linux x86_64 / macOS Darwin",
