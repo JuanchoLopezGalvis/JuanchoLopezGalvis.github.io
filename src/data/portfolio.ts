@@ -58,6 +58,7 @@ export const PORTFOLIO_DATA = {
       '"Code is like humor. When you have to explain it, it’s bad." – Cory House',
     asciiBanner: `
 `
+,
      _ _   _   _    _   _ 
     | | | | | / \\  | \\ | |
  _  | | | | |/ _ \\ |  \\| |
