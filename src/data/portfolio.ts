@@ -353,9 +353,9 @@ Execution --> bash -c`,
       usage: "cli",
     },
     {
-      name: "presentacion",
-      desc: "Reproduce el video de presentación personal",
-      usage: "presentacion [or intro, video]",
+      name: "presentation",
+      desc: "Play the personal presentation video",
+      usage: "presentation",
     },  
   ],
 };
