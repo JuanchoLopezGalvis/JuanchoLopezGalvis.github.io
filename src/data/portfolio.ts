@@ -59,7 +59,7 @@ export const PORTFOLIO_DATA = {
       "#06b6d4",
       "#f8fafc",
     ],
-    bio: "Passionate systems & web engineer with 7+ years of experience building high-throughput edge systems, interactive web applications, and developer tools. Active open-source contributor and collaborative team player.",
+    bio: "Systems Engineering student (5th semester) at Universidad El Bosque, Bogotá. Experienced with Python and Java, with hands-on background as an engineer's assistant at a blockchain-focused company, plus independent PC repair & maintenance work. Passionate about building practical software solutions and constantly learning new tools.",
     quote:
       '"Code is like humor. When you have to explain it, it’s bad." – Cory House',
 asciiBanner: `
