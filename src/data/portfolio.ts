@@ -90,10 +90,10 @@ asciiBanner: `
   },
 
   presentation: {
-    title: "Presentación",
+    title: "Presentation",
     description:
-      "Video de presentación",
-    videoUrl: "/videos/presentacion.mp4",
+      "Presentation video",
+    videoUrl: "/videos/presentation.mp4",
   } as PresentationData,  
 
   skills: [
