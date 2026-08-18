@@ -83,7 +83,7 @@ asciiBanner: `
       Shell: "bash 5.3.3 (x86_64-pc-linux-gnu)",
       Terminal: "Alacritty / Web-TUI Astro",
       WM: "i3-gaps / yabai",
-      Editor_or_IDE: "Eclipse / VS Code",
+      Editor: "Eclipse / VS Code",
       CPU: "Ryzen 7 5800 HS",
       Memory: "16 GB",
     },
