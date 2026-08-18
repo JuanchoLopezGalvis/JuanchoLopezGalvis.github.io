@@ -352,5 +352,10 @@ Execution --> bash -c`,
       desc: "Switch window layout to Interactive CLI Mode",
       usage: "cli",
     },
+    {
+      name: "presentacion",
+      desc: "Reproduce el video de presentación personal",
+      usage: "presentacion [or intro, video]",
+    },  
   ],
 };
