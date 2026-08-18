@@ -13,6 +13,12 @@ export interface CollabItem {
   asciiLogo?: string;
 }
 
+export interface PresentationData {
+  title: string;
+  description: string;
+  videoUrl: string;
+}
+
 export interface SkillCategory {
   category: string;
   icon: string;
@@ -82,6 +88,13 @@ asciiBanner: `
       Memory: "24.5GiB / 64.0GiB",
     },
   },
+
+  presentation: {
+    title: "Presentación",
+    description:
+      "Video de presentación",
+    videoUrl: "/videos/presentacion.mp4",
+  } as PresentationData,  
 
   skills: [
     {
@@ -216,6 +229,7 @@ asciiBanner: `
 | HYPEREDGE PROTOCOL |
 | [STATUS: ACTIVE]   |
 +--------------------+`,
+
     },
     {
       id: "collab-astrosynth",
