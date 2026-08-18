@@ -46,7 +46,7 @@ export const PORTFOLIO_DATA = {
     github: "https://github.com/nivinvysakh/astro-tui-portfolio",
     linkedin: "https://linkedin.com",
     twitter: "https://x.com",
-    location: "San Francisco, CA // UTC-7",
+    location: "Bogota, Colombia // UTC-05",
     status: " OPEN FOR COLLABORATIONS & CONTRACTS",
     CLI_EMOJI: "🫐",
     palette: [
@@ -77,15 +77,15 @@ asciiBanner: `
 `,
 
     specs: {
-      OS: "Arch Linux x86_64 / macOS Darwin",
-      Kernel: "6.10.8-zen1-1-zen",
+      OS: "Ubuntu 26.04 LTS",
+      Kernel: "Linux Kernel 7.0",
       Uptime: "42 days, 13 hours, 37 mins",
-      Shell: "zsh 5.9 (x86_64-apple-darwin22.0)",
+      Shell: "bash 5.3.3 (x86_64-pc-linux-gnu)",
       Terminal: "Alacritty / Web-TUI Astro",
       WM: "i3-gaps / yabai",
-      Editor: "Neovim (NVChad) / VS Code",
-      CPU: "Apple M3 Max (16 cores)",
-      Memory: "24.5GiB / 64.0GiB",
+      Editor or IDE: "Eclipse / VS Code",
+      CPU: "Ryzen 7 5800 HS",
+      Memory: "16 GB",
     },
   },
 
