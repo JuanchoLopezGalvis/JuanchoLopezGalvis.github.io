@@ -4,7 +4,7 @@ import Neofetch from "./Neofetch.astro";
 import SpotifyWidget from "./SpotifyWidget.astro";
 import GamesWidget from "./GamesWidget.astro";
 
-const { developer, skills, collabs } = PORTFOLIO_DATA;
+const { developer, skills, collabs, presentation } = PORTFOLIO_DATA;
 ---
 
 <div
@@ -33,6 +33,13 @@ const { developer, skills, collabs } = PORTFOLIO_DATA;
           class="gui-nav-item flex items-center gap-2 p-1.5 hover:bg-[var(--border-color)] text-[var(--fg-bright)] font-bold transition-colors"
         >
           <span class="text-yellow-400">📄</span> bio.txt (About Me)
+        </a>
+                
+          href="#gui-presentation"
+          class="gui-nav-item flex items-center gap-2 p-1.5 hover:bg-[var(--border-color)] text-[var(--fg-bright)] transition-colors"
+        >
+          <span class="text-pink-400">🎬</span> presentacion.mp4 (Video)
+
         </a>
         <a
           href="#gui-skills"
@@ -149,6 +156,35 @@ const { developer, skills, collabs } = PORTFOLIO_DATA;
             </div>
           </div>
         </div>
+      </section>
+
+      <!-- Section: Presentación -->
+      <section
+        id="gui-presentation"
+        class="border border-[var(--border-color)] bg-[var(--bg-card)] p-5 space-y-4"
+      >
+        <div
+          class="flex items-center justify-between border-b border-[var(--border-color)] pb-3"
+        >
+          <h2
+            class="text-base font-bold text-[var(--fg-bright)] flex items-center gap-2"
+          >
+            <span class="text-[var(--accent)]">></span> PLAY PRESENTACION.MP4 // {PORTFOLIO_DATA.presentation.title.toUpperCase()}
+          </h2>
+          <span class="text-xs text-[var(--fg-dim)]">[VIDEO]</span>
+        </div>
+
+        <p class="text-[var(--fg-main)] leading-relaxed text-sm">
+          {PORTFOLIO_DATA.presentation.description}
+        </p>
+
+        <video
+          controls
+          class="w-full rounded border border-[var(--border-color)]"
+          src={PORTFOLIO_DATA.presentation.videoUrl}
+        >
+          Tu navegador no soporta el elemento video.
+        </video>
       </section>
 
       <!-- Section 2: Skills -->
