@@ -142,7 +142,17 @@ const { developer, skills, collabs, presentation } = PORTFOLIO_DATA;
               >ENGINEERING FOCUS</span
             >
             <div class="text-xs text-[var(--accent)] font-bold">
-              Systems Architecture, Edge Systems & Web Performance
+              {developer.focus}
+            </div>
+          </div>
+          <div
+            class="p-3 border border-[var(--border-color)] bg-[var(--bg-main)] space-y-1"
+          >
+            <span class="text-[10px] text-[var(--fg-dim)] uppercase font-bold"
+              >INTERESTS</span
+            >
+            <div class="text-xs text-[var(--fg-bright)] font-bold">
+              {developer.interests.join(" · ")}
             </div>
           </div>
           <div
@@ -263,9 +273,9 @@ const { developer, skills, collabs, presentation } = PORTFOLIO_DATA;
           <h2
             class="text-base font-bold text-[var(--fg-bright)] flex items-center gap-2"
           >
-            <span class="text-[var(--accent)]">></span> CAT COLLABS.MD // TEAM COLLABORATIONS
+            <span class="text-[var(--accent)]">></span> CAT COLLABS.MD // PROJECTS &amp; COLLABORATIONS
           </h2>
-          <span class="text-xs text-[var(--fg-dim)]">[PARTNERSHIPS]</span>
+          <span class="text-xs text-[var(--fg-dim)]">[PROJECTS]</span>
         </div>
 
         <div class="space-y-4">
@@ -287,7 +297,7 @@ const { developer, skills, collabs, presentation } = PORTFOLIO_DATA;
 
                 <div class="text-xs">
                   <span class="text-[var(--accent)] font-bold">
-                    Partner Org:
+                    Org:
                   </span>{" "}
                   <span class="text-[var(--fg-bright)] font-bold">
                     {item.partner}
@@ -313,6 +323,30 @@ const { developer, skills, collabs, presentation } = PORTFOLIO_DATA;
                     ))}
                   </ul>
                 </div>
+
+                {item.team && (
+                  <div class="text-xs">
+                    <span class="text-[var(--accent)] font-bold">Team:</span>{" "}
+                    <span class="text-[var(--fg-main)]">{item.team.join(", ")}</span>
+                  </div>
+                )}
+
+                {item.snippets && item.snippets.length > 0 && (
+                  <div class="space-y-2 pt-1">
+                    <span class="text-[10px] text-[var(--fg-dim)] uppercase font-bold">
+                      Code Snippets:
+                    </span>
+                    {item.snippets.map((sn) => (
+                      <details class="border border-[var(--border-color)] bg-[var(--bg-card)]">
+                        <summary class="cursor-pointer px-3 py-1.5 text-xs font-bold text-[var(--fg-bright)] flex items-center justify-between gap-2">
+                          <span>&gt; {sn.title}</span>
+                          <span class="text-[9px] px-1 bg-[var(--border-color)] text-[var(--accent)] uppercase">{sn.lang}</span>
+                        </summary>
+                        <pre class="m-0 p-3 border-t border-[var(--border-color)] text-[10px] sm:text-xs text-[var(--fg-main)] overflow-x-auto leading-snug font-mono whitespace-pre"><code>{sn.code}</code></pre>
+                      </details>
+                    ))}
+                  </div>
+                )}
 
                 <div class="flex flex-wrap items-center justify-between pt-3 border-t border-[var(--border-color)] gap-2">
                   <div class="flex flex-wrap gap-1">
