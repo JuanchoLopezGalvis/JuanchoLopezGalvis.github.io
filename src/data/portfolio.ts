@@ -356,6 +356,141 @@ EXCEPTION
   SP_ -> FN_ -> TRG_
   PL/SQL // ORACLE 19c`,
     },
+    {
+      id: "bd2-mql-mflix",
+      partner: "Universidad El Bosque · Databases 2",
+      partnerType: "Academic Project",
+      title: "MQL Workshop — Queries, Aggregation & Indexes (MongoDB sample_mflix)",
+      role: "Developer (team of 3)",
+      period: "NOV 2026",
+      status: "COMPLETED",
+      team: [
+        "Dylan Arturo Mancipe Celis",
+        "Juan Diego López Galvis",
+        "Gabriela Poveda Garcia",
+      ],
+      description:
+        "MongoDB Query Language workshop on the sample_mflix dataset (movies and comments): find queries over arrays and nested fields, multi-stage aggregation pipelines, write operations, an index tuned with the ESR rule and measured with explain(), plus document-model designs for two real-world cases.",
+      contributions: [
+        "find queries over arrays and nested documents: $all + $size, $ne on arrays, $exists/$in with $or, case-insensitive regex, and countDocuments with the same filter.",
+        "Aggregation pipelines with $match, $unwind, $group, $project, $round, $slice and $sort: stats per genre, top directors and movies per decade (year - year % 10).",
+        "Top 10 most commented movies with $lookup between comments and movies, sorting and limiting before the join so only 10 documents are looked up.",
+        "Built a new collection with $switch + $out, then updateMany ($set + $inc) and deleteMany, reporting matchedCount, modifiedCount and deletedCount.",
+        "Compound index following the ESR rule (Equality, Sort, Range) and compared explain('executionStats') before and after: COLLSCAN with in-memory sort vs IXSCAN.",
+        "Document-model design for a food-delivery platform (embedded data, extended references, attribute pattern) and an IoT air-quality network in Bogotá (bucket, computed and schema-versioning patterns), with sample JSON documents.",
+      ],
+      techStack: ["MongoDB", "MQL", "Aggregation Pipeline", "Indexes", "Schema Design"],
+      snippets: [
+        {
+          title: "Top 10 most commented movies ($lookup)",
+          lang: "js",
+          code: `db.comments.aggregate([
+  { $group: { _id: "$movie_id", num_comentarios: { $sum: 1 } } },
+  { $sort: { num_comentarios: -1 } },
+  { $limit: 10 },   // limitar antes del $lookup: solo 10 cruces
+  { $lookup: { from: "movies", localField: "_id",
+               foreignField: "_id", as: "pelicula" } },
+  { $unwind: "$pelicula" },
+  { $project: { _id: 0, titulo: "$pelicula.title",
+                anio: "$pelicula.year", num_comentarios: 1 } }
+]);`,
+        },
+        {
+          title: "Stats per genre (only numeric ratings)",
+          lang: "js",
+          code: `db.movies.aggregate([
+  { $match: { "imdb.rating": { $type: "number" } } },
+  { $unwind: "$genres" },
+  { $group: {
+      _id: "$genres",
+      num_peliculas: { $sum: 1 },
+      promedio: { $avg: "$imdb.rating" },
+      maximo: { $max: "$imdb.rating" }
+  } },
+  { $match: { num_peliculas: { $gt: 500 } } },
+  { $project: { num_peliculas: 1, maximo: 1,
+                promedio: { $round: ["$promedio", 2] } } },
+  { $sort: { promedio: -1 } }
+]);`,
+        },
+        {
+          title: "ESR index: COLLSCAN -> IXSCAN",
+          lang: "js",
+          code: `// E: genres (igualdad)  S: imdb.rating (orden)  R: year (rango)
+db.movies.createIndex({ genres: 1, "imdb.rating": -1, year: 1 });
+
+db.movies.find(
+  { genres: "Drama", year: { $gte: 2000, $lte: 2010 },
+    "imdb.rating": { $gte: 8 } }
+).sort({ "imdb.rating": -1 }).limit(10)
+ .explain("executionStats");
+// comparar totalDocsExamined, executionTimeMillis y winningPlan`,
+        },
+      ],
+      link: "/docs/taller-mql-mflix.pdf",
+      asciiLogo: `{ $match } -> { $unwind }
+   -> { $group } -> { $sort }
+   MQL // sample_mflix`,
+    },
+    {
+      id: "bd2-mongodb-airbnb",
+      partner: "Universidad El Bosque · Databases 2",
+      partnerType: "Academic Project",
+      title: "MongoDB Workshop — CRUD & Aggregation on sample_airbnb",
+      role: "Developer (pair work)",
+      period: "NOV 2026",
+      status: "COMPLETED",
+      team: ["Dylan Arturo Mancipe Celis", "Juan Diego López Galvis"],
+      description:
+        "30 exercises on the sample_airbnb listings collection, run in VS Code with the MongoDB extension: inserts, filtered queries, updates and aggregation pipelines to analyze prices, amenities, property types and reviews.",
+      contributions: [
+        "Inserts with insertOne/insertMany: nested address objects, amenities arrays, Decimal128 prices, and a duplicate _id to show the uniqueness error.",
+        "Queries with $gt, $lt, $and, $in, regex, array matching, $size, sort/limit and projections over nested fields (address.country, address.market).",
+        "Updates with $set, $push, $inc, $pull and an upsert that inserts the listing when it does not exist.",
+        "Aggregations: average price per country, top 5 amenities with $unwind, listings per property type, $toInt conversion, average review score for listings with 10+ reviews.",
+        "Price ranges with $bucket, last reviews counted per year with $year, average guest capacity per property type, and a $lookup design to join listings with a hosts collection.",
+      ],
+      techStack: ["MongoDB", "MQL", "CRUD", "Aggregation Pipeline", "VS Code"],
+      snippets: [
+        {
+          title: "Top 5 amenities in the dataset",
+          lang: "js",
+          code: `db.listingsAndReviews.aggregate([
+  { $unwind: "$amenities" },
+  { $group: { _id: "$amenities", frecuencia: { $sum: 1 } } },
+  { $sort: { frecuencia: -1 } },
+  { $limit: 5 }
+]);`,
+        },
+        {
+          title: "Listings by price range ($bucket)",
+          lang: "js",
+          code: `db.listingsAndReviews.aggregate([
+  { $bucket: {
+      groupBy: "$price",
+      boundaries: [0, 101, 301, 1001],
+      default: "1000+",
+      output: { cantidad: { $sum: 1 } }
+  } }
+]);`,
+        },
+        {
+          title: "Upsert: update or insert",
+          lang: "js",
+          code: `db.listingsAndReviews.updateOne(
+  { name: "Mansión de Prueba" },
+  { $set: { price: NumberDecimal("1500.00"),
+            "address.country": "United States" } },
+  { upsert: true }
+);`,
+        },
+      ],
+      link: "/docs/taller-mongodb-crud-airbnb.pdf",
+      asciiLogo: `+------------------------+
+| sample_airbnb // BD2   |
+| insert find update agg |
++------------------------+`,
+    },
   ] as CollabItem[],
 
   commands: [
