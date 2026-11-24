@@ -152,24 +152,24 @@ asciiBanner: `
       id: "bd2-pollos-hermanos",
       partner: "Universidad El Bosque · Databases 2",
       partnerType: "Academic Project",
-      title: "Los Pollos Hermanos — Broiler Farm Management System (Final Project)",
-      role: "Full-stack developer (team of 3)",
+      title: "Los Pollos Hermanos — Broiler Chicken Production & Sales Management System",
+      role: "Database & Infrastructure Lead / Developer",
       period: "OCT – NOV 2026",
       status: "COMPLETED",
       team: [
-        "Juan Diego López Galvis",
-        "Dylan Arturo Mancipe Celis",
-        "Gabriela Poveda Garcia",
+        "Dylan Arturo Mancipe Celis (Project Manager · Business Expert)",
+        "Juan Diego López Galvis (Database & Infrastructure Lead)",
+        "Gabriela Poveda Garcia (Frontend, QA & Documentation Lead)",
       ],
       description:
-        "Final project for Databases 2: a web system to run a broiler chicken farm — poultry houses, batches, feed, health, staff, expenses, sales, accounts receivable, a customer portal with online payment, cash payments recorded by staff, daily growth tracking and auditing. Business rules live in PostgreSQL; Spring Boot exposes them as a REST API and Angular consumes it.",
+        "Final project for Databases 2: a web system that centralizes production and sales on a broiler chicken farm, from the arrival of each batch to the collection of the sale, to know the real cost and profitability of every batch. PostgreSQL holds the business logic in procedures, functions and triggers; MongoDB is used for a single module, daily growth tracking; a Spring Boot REST API and an Angular front end sit on top, with the databases on Linux virtual machines.",
       contributions: [
-        "PostgreSQL model split into 12 installable modules, with business rules enforced by PL/pgSQL functions, procedures and triggers (validations, batch state changes on sale, payments capped at the outstanding balance).",
-        "Least-privilege security: objects owned by a no-login role and an application role with DML only; Hibernate only validates the schema (ddl-auto=validate).",
-        "Generic audit module: a function that attaches row-level and TRUNCATE audit triggers to every table dynamically, with an append-only audit table.",
-        "SQL test scripts per module that run inside a rolled-back transaction (183 cases) plus 205 Java unit tests.",
-        "Spring Boot 4 / Java 21 REST API with JWT and permission-based roles, Swagger docs, Wompi sandbox online payments and Thymeleaf email receipts; MongoDB for daily growth tracking.",
-        "Angular 20 + PrimeNG front end with permission-driven menus, and deployment with systemd, nginx and two VirtualBox VMs (PostgreSQL and MongoDB).",
+        "Eight modules: poultry houses and batches; feeding by growth stage (pre-starter, starter, grower, finisher); health; expenses including processing (slaughter and plucking) cost; staff; sales (customers, orders by batch, sales); receivables and deliveries with partial payments and sandbox online payments; and daily growth tracking.",
+        "Real batch cost from five components (day-old chicks, feed valued at the weighted average cost per bag, vitamins and medicines, processing, other expenses), giving cost per bird sold and batch profitability.",
+        "Business rules enforced inside PostgreSQL with transactions and exceptions: house capacity, feed allowed by batch age, daily mortality with an alert above the expected 5%, balances and overdue receivables.",
+        "Chose PostgreSQL with a weighted decision matrix (4.85/5 vs. MySQL 3.50, MariaDB 3.65, SQL Server 3.65), led by procedural logic and transaction control, and confirmed it with a sensitivity analysis.",
+        "MongoDB only for daily growth tracking, whose structure changes from day to day; no data is stored in both databases, and the backend only saves tracking for active batches that exist in PostgreSQL.",
+        "As database & infrastructure lead: data model and PL/pgSQL, least-privilege roles (the app connects with a DML-only role), a generic audit module, SQL tests run inside rolled-back transactions (183 cases), the two Ubuntu VMs and the Git workflow.",
       ],
       techStack: [
         "PostgreSQL",
@@ -178,10 +178,32 @@ asciiBanner: `
         "Spring Boot",
         "Java 21",
         "Angular",
-        "JWT",
-        "nginx",
+        "VirtualBox",
+        "Git",
       ],
       snippets: [
+        {
+          title: "Real batch cost: five components",
+          lang: "sql",
+          code: `CREATE FUNCTION fn_costo_lote(p_id_lote BIGINT)
+RETURNS TABLE (costo_pollitos NUMERIC, costo_alimento NUMERIC, costo_sanidad NUMERIC,
+               costo_beneficio NUMERIC, otros_gastos NUMERIC, costo_total NUMERIC)
+LANGUAGE sql STABLE AS $$
+    WITH c AS (
+        SELECT l.cantidad_inicial * l.costo_pollito AS pollitos,
+               COALESCE((SELECT SUM(ROUND(ca.cantidad_bultos * ca.costo_unitario, 2))
+                           FROM consumo_alimento ca WHERE ca.id_lote = l.id_lote), 0) AS alimento,
+               COALESCE((SELECT SUM(ROUND(a.dosis * a.costo_unitario, 2))
+                           FROM aplicacion_sanitaria a WHERE a.id_lote = l.id_lote), 0) AS sanidad,
+               fn_costo_beneficio_lote(l.id_lote) AS beneficio,
+               COALESCE((SELECT SUM(g.monto) FROM gasto g WHERE g.id_lote = l.id_lote), 0) AS otros
+        FROM lote l WHERE l.id_lote = p_id_lote
+    )
+    SELECT pollitos, alimento, sanidad, beneficio, otros,
+           pollitos + alimento + sanidad + beneficio + otros
+    FROM c;
+$$;`,
+        },
         {
           title: "Trigger: a batch becomes SOLD when its birds run out",
           lang: "plpgsql",
@@ -200,24 +222,6 @@ $$;
 CREATE TRIGGER tgr_ai_venta_lotes
     AFTER INSERT ON venta
     FOR EACH ROW EXECUTE FUNCTION fn_trg_venta_lotes();`,
-        },
-        {
-          title: "Dynamic auditing: one trigger per table (fragment)",
-          lang: "plpgsql",
-          code: `FOR r_tabla IN
-    SELECT c.oid, c.relname, ... AS llave
-    FROM pg_class c ...
-    WHERE n.nspname = 'public' AND c.relname <> 'auditoria'
-      AND NOT EXISTS (SELECT 1 FROM pg_trigger t
-                      WHERE t.tgrelid = c.oid
-                        AND t.tgfoid = 'fn_trg_auditoria'::regproc)
-LOOP
-    EXECUTE format('CREATE TRIGGER %I AFTER INSERT OR UPDATE OR DELETE ON %I '
-                   'FOR EACH ROW EXECUTE FUNCTION fn_trg_auditoria(%s)',
-                   'tgr_aiud_' || r_tabla.relname || '_auditoria',
-                   r_tabla.relname, COALESCE(r_tabla.llave, ''));
-    v_enganchadas := v_enganchadas + 1;
-END LOOP;`,
         },
       ],
       link: "https://github.com/JuanchoLopezGalvis/pollos_hermanos_back",

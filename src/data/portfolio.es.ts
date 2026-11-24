@@ -7,6 +7,7 @@ export interface CollabTranslation {
   title: string;
   role: string;
   period?: string;
+  team?: string[];
   description: string;
   contributions: string[];
   /** Títulos de los fragmentos, en el mismo orden que en portfolio.ts. */
@@ -58,21 +59,26 @@ export const PORTFOLIO_ES = {
   collabs: {
     "bd2-pollos-hermanos": {
       partner: "Universidad El Bosque · Bases de Datos 2",
-      title: "Los Pollos Hermanos — Sistema de gestión de una granja de pollos de engorde (proyecto final)",
-      role: "Desarrollador full-stack (equipo de 3)",
+      title: "Los Pollos Hermanos — Sistema de Gestión de Producción y Venta de Pollos de Engorde",
+      role: "Líder de base de datos e infraestructura / Desarrollador",
+      team: [
+        "Dylan Arturo Mancipe Celis (Gerente de proyecto · Experto del negocio)",
+        "Juan Diego López Galvis (Líder de base de datos e infraestructura)",
+        "Gabriela Poveda Garcia (Líder de frontend, calidad y documentación)",
+      ],
       description:
-        "Proyecto final de Bases de Datos 2: un sistema web para manejar una granja de pollos de engorde (galpones, lotes, alimentación, sanidad, personal, gastos, ventas, cartera, portal de clientes con pago en línea, pago en efectivo registrado por el personal, seguimiento diario del crecimiento y auditoría). Las reglas del negocio viven en PostgreSQL, Spring Boot las expone como API REST y Angular la consume.",
+        "Proyecto final de Bases de Datos 2: un sistema web que centraliza la producción y la venta de una finca avícola de pollos de engorde, desde el ingreso de cada lote hasta el cobro de la venta, para conocer el costo real y la rentabilidad de cada lote. PostgreSQL concentra la lógica del negocio en procedimientos, funciones y triggers; MongoDB se usa en un único módulo, el seguimiento diario del crecimiento; encima van una API REST en Spring Boot y la interfaz en Angular, con las bases de datos en máquinas virtuales Linux.",
       contributions: [
-        "Modelo en PostgreSQL dividido en 12 módulos instalables, con las reglas del negocio en funciones, procedimientos y triggers de PL/pgSQL (validaciones, cambio de estado de los lotes al vender, pagos que no superan el saldo).",
-        "Seguridad con mínimo privilegio: los objetos pertenecen a un rol sin login y la aplicación usa un rol que solo tiene DML; Hibernate solo valida el esquema (ddl-auto=validate).",
-        "Módulo de auditoría genérico: una función que engancha dinámicamente triggers de auditoría por fila y de TRUNCATE a todas las tablas, con una tabla de auditoría que no se puede modificar.",
-        "Scripts de pruebas SQL por módulo que corren dentro de una transacción que se deshace (183 casos) y 205 pruebas unitarias en Java.",
-        "API REST en Spring Boot 4 / Java 21 con JWT y roles por permisos, documentación con Swagger, pago en línea con Wompi (sandbox) y comprobantes por correo con Thymeleaf; MongoDB para el seguimiento diario del crecimiento.",
-        "Front en Angular 20 + PrimeNG con menús según los permisos, y despliegue con systemd, nginx y dos máquinas virtuales en VirtualBox (PostgreSQL y MongoDB).",
+        "Ocho módulos: galpones y lotes; alimentación por etapas (preiniciación, iniciación, engorde y finalización); sanidad; gastos, incluido el costo del beneficio (sacrificio y pelado); personal; comercial (clientes, pedidos por lote y ventas); cartera y entregas, con pagos parciales y pago en línea en ambiente de pruebas; y seguimiento diario del crecimiento.",
+        "Costo real del lote con cinco componentes (pollitos de un día, alimento valorado al costo promedio ponderado del bulto, vitaminas y medicamentos, beneficio y demás gastos), de donde salen el costo por ave vendida y la rentabilidad del lote.",
+        "Reglas del negocio dentro de PostgreSQL con transacciones y excepciones: capacidad del galpón, alimento según la edad del lote, mortalidad diaria con alerta cuando supera el 5% esperado, saldos y cartera vencida.",
+        "Selección de PostgreSQL con una matriz de decisión ponderada (4,85/5 frente a MySQL 3,50, MariaDB 3,65 y SQL Server 3,65), liderada por la lógica procedural y el control transaccional, y confirmada con un análisis de sensibilidad.",
+        "MongoDB solo para el seguimiento diario del crecimiento, cuya estructura cambia de un día a otro; ningún dato se guarda en las dos bases y el backend solo guarda un seguimiento si el lote existe en PostgreSQL y está activo.",
+        "Como líder de base de datos e infraestructura: modelo de datos y PL/pgSQL, roles con mínimo privilegio (la aplicación se conecta con un rol que solo tiene DML), un módulo de auditoría genérico, pruebas SQL dentro de transacciones que se deshacen (183 casos), las dos máquinas virtuales Ubuntu y el flujo de Git.",
       ],
       snippetTitles: [
+        "Costo real del lote: cinco componentes",
         "Trigger: el lote pasa a VENDIDO cuando se acaban sus aves",
-        "Auditoría dinámica: un trigger por tabla (fragmento)",
       ],
     },
     "bd2-banco-andino": {
