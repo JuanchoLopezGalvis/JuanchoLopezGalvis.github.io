@@ -1,5 +1,9 @@
 ---
 import { ALL_THEMES } from "../config/themeConfig";
+import { LANGS, LANG_PATH, toLang, ui } from "../i18n/ui";
+
+const lang = toLang(Astro.props.lang);
+const t = ui(lang);
 ---
 
 <div
@@ -12,17 +16,17 @@ import { ALL_THEMES } from "../config/themeConfig";
       <div class="flex items-center gap-1.5">
         <span
           id="win-close"
-          title="Reset Terminal"
+          title={t.resetTerminal}
           class="w-3 h-3 rounded-full bg-red-500/80 hover:bg-red-500 cursor-pointer inline-block border border-red-700 transition-colors"
         ></span>
         <span
           id="win-min"
-          title="Toggle Compact View"
+          title={t.compactView}
           class="w-3 h-3 rounded-full bg-yellow-500/80 hover:bg-yellow-500 cursor-pointer inline-block border border-yellow-700 transition-colors"
         ></span>
         <span
           id="win-max"
-          title="Full Width"
+          title={t.fullWidth}
           class="w-3 h-3 rounded-full bg-emerald-500/80 hover:bg-emerald-500 cursor-pointer inline-block border border-emerald-700 transition-colors"
         ></span>
       </div>
@@ -47,21 +51,46 @@ import { ALL_THEMES } from "../config/themeConfig";
         id="tab-cli"
         class="hidden md:inline-block px-3 py-1 font-bold text-[var(--fg-bright)] bg-[var(--border-color)] border-b-2 border-[var(--accent)] cursor-pointer transition-colors"
       >
-        >_ CLI Mode
+        {t.cliMode}
       </button>
       <button
         id="tab-gui"
         class="px-3 py-1 font-bold text-[var(--fg-dim)] hover:text-[var(--fg-bright)] cursor-pointer transition-colors"
       >
-        [#] GUI Dashboard
+        {t.guiMode}
       </button>
     </div>
 
     <div class="flex items-center gap-2 text-xs font-mono">
+      <nav
+        aria-label={t.langLabel}
+        class="flex items-center border border-[var(--border-color)] bg-[var(--bg-card)]"
+      >
+        {
+          LANGS.map((l) => (
+            <a
+              href={LANG_PATH[l]}
+              hreflang={l}
+              lang={l}
+              data-lang-link={l}
+              aria-current={l === lang ? "page" : undefined}
+              title={l === "en" ? "English" : "Español"}
+              class={
+                l === lang
+                  ? "px-2 py-1 font-bold bg-[var(--border-color)] text-[var(--accent)]"
+                  : "px-2 py-1 text-[var(--fg-dim)] hover:text-[var(--fg-bright)]"
+              }
+            >
+              {l.toUpperCase()}
+            </a>
+          ))
+        }
+      </nav>
+
       <div class="relative group">
         <select
           id="theme-select"
-          aria-label="Select Color Theme"
+          aria-label={t.selectTheme}
           class="bg-[var(--bg-card)] text-[var(--fg-bright)] border border-[var(--border-color)] px-2 py-1 text-xs font-mono cursor-pointer focus:outline-none focus:border-[var(--border-active)]"
         >
           {
@@ -76,7 +105,7 @@ import { ALL_THEMES } from "../config/themeConfig";
 
       <button
         id="toggle-crt-btn"
-        aria-label="Toggle CRT Effect"
+        aria-label={t.toggleCrt}
         class="hidden md:flex px-2 py-1 border border-[var(--border-color)] bg-[var(--bg-card)] hover:border-[var(--border-active)] text-[var(--fg-bright)] cursor-pointer items-center gap-1"
       >
         <span id="crt-indicator" class="w-2 h-2 rounded-full bg-emerald-400"
@@ -86,7 +115,7 @@ import { ALL_THEMES } from "../config/themeConfig";
 
       <button
         id="toggle-sfx-btn"
-        aria-label="Toggle Audio Sound Effects"
+        aria-label={t.toggleSfx}
         class="px-2 py-1 border border-[var(--border-color)] bg-[var(--bg-card)] hover:border-[var(--border-active)] text-[var(--fg-bright)] cursor-pointer flex items-center gap-1"
       >
         <span id="sfx-icon">🔊</span>
@@ -95,7 +124,7 @@ import { ALL_THEMES } from "../config/themeConfig";
 
       <button
         id="trigger-matrix-btn"
-        title="Trigger Matrix Rain"
+        title={t.triggerMatrix}
         class="px-2 py-1 border border-[var(--border-color)] bg-[var(--bg-card)] hover:border-[var(--accent)] text-[var(--accent)] font-bold cursor-pointer"
       >
         ⚡ Matrix
@@ -117,7 +146,7 @@ import { ALL_THEMES } from "../config/themeConfig";
       </span>
       <span class="hidden sm:inline">UTF-8</span>
       <span class="hidden md:inline"
-        >MODE: <span id="mode-status-text">CLI</span></span
+        >{t.modeLabel}: <span id="mode-status-text">CLI</span></span
       >
     </div>
 
@@ -148,6 +177,13 @@ import { ALL_THEMES } from "../config/themeConfig";
 
     initSfxFromStorage();
     updateSfxUI();
+
+    // Recordar el idioma elegido con el botón EN | ES
+    document.querySelectorAll<HTMLAnchorElement>("[data-lang-link]").forEach((link) => {
+      link.addEventListener("click", () => {
+        localStorage.setItem("tui_lang", link.dataset.langLink || "en");
+      });
+    });
 
     function updateClock() {
       const clockEl = document.getElementById("live-clock");

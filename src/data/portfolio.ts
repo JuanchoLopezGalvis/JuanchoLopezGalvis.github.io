@@ -149,6 +149,83 @@ asciiBanner: `
 
   collabs: [
     {
+      id: "bd2-pollos-hermanos",
+      partner: "Universidad El Bosque · Databases 2",
+      partnerType: "Academic Project",
+      title: "Los Pollos Hermanos — Broiler Farm Management System (Final Project)",
+      role: "Full-stack developer (team of 3)",
+      period: "OCT – NOV 2026",
+      status: "COMPLETED",
+      team: [
+        "Juan Diego López Galvis",
+        "Dylan Arturo Mancipe Celis",
+        "Gabriela Poveda Garcia",
+      ],
+      description:
+        "Final project for Databases 2: a web system to run a broiler chicken farm — poultry houses, batches, feed, health, staff, expenses, sales, accounts receivable, a customer portal with online payment, cash payments recorded by staff, daily growth tracking and auditing. Business rules live in PostgreSQL; Spring Boot exposes them as a REST API and Angular consumes it.",
+      contributions: [
+        "PostgreSQL model split into 12 installable modules, with business rules enforced by PL/pgSQL functions, procedures and triggers (validations, batch state changes on sale, payments capped at the outstanding balance).",
+        "Least-privilege security: objects owned by a no-login role and an application role with DML only; Hibernate only validates the schema (ddl-auto=validate).",
+        "Generic audit module: a function that attaches row-level and TRUNCATE audit triggers to every table dynamically, with an append-only audit table.",
+        "SQL test scripts per module that run inside a rolled-back transaction (183 cases) plus 205 Java unit tests.",
+        "Spring Boot 4 / Java 21 REST API with JWT and permission-based roles, Swagger docs, Wompi sandbox online payments and Thymeleaf email receipts; MongoDB for daily growth tracking.",
+        "Angular 20 + PrimeNG front end with permission-driven menus, and deployment with systemd, nginx and two VirtualBox VMs (PostgreSQL and MongoDB).",
+      ],
+      techStack: [
+        "PostgreSQL",
+        "PL/pgSQL",
+        "MongoDB",
+        "Spring Boot",
+        "Java 21",
+        "Angular",
+        "JWT",
+        "nginx",
+      ],
+      snippets: [
+        {
+          title: "Trigger: a batch becomes SOLD when its birds run out",
+          lang: "plpgsql",
+          code: `CREATE FUNCTION fn_trg_venta_lotes()
+RETURNS TRIGGER
+LANGUAGE plpgsql AS $$
+BEGIN
+    UPDATE lote l SET estado = 'VENDIDO'
+    FROM detalle_pedido d
+    WHERE d.id_pedido = NEW.id_pedido AND l.id_lote = d.id_lote
+      AND l.estado = 'LISTO_PARA_VENTA' AND fn_aves_disponibles(l.id_lote) = 0;
+    RETURN NULL;
+END;
+$$;
+
+CREATE TRIGGER tgr_ai_venta_lotes
+    AFTER INSERT ON venta
+    FOR EACH ROW EXECUTE FUNCTION fn_trg_venta_lotes();`,
+        },
+        {
+          title: "Dynamic auditing: one trigger per table (fragment)",
+          lang: "plpgsql",
+          code: `FOR r_tabla IN
+    SELECT c.oid, c.relname, ... AS llave
+    FROM pg_class c ...
+    WHERE n.nspname = 'public' AND c.relname <> 'auditoria'
+      AND NOT EXISTS (SELECT 1 FROM pg_trigger t
+                      WHERE t.tgrelid = c.oid
+                        AND t.tgfoid = 'fn_trg_auditoria'::regproc)
+LOOP
+    EXECUTE format('CREATE TRIGGER %I AFTER INSERT OR UPDATE OR DELETE ON %I '
+                   'FOR EACH ROW EXECUTE FUNCTION fn_trg_auditoria(%s)',
+                   'tgr_aiud_' || r_tabla.relname || '_auditoria',
+                   r_tabla.relname, COALESCE(r_tabla.llave, ''));
+    v_enganchadas := v_enganchadas + 1;
+END LOOP;`,
+        },
+      ],
+      link: "https://github.com/JuanchoLopezGalvis/pollos_hermanos_back",
+      asciiLogo: `   ( o>   LOS POLLOS HERMANOS
+  //\\     PostgreSQL + MongoDB
+  V_/_    Spring Boot // Angular`,
+    },
+    {
       id: "bd2-banco-andino",
       partner: "Universidad El Bosque · Databases 2",
       partnerType: "Academic Project",
@@ -569,6 +646,11 @@ db.movies.find(
       name: "presentation",
       desc: "Play the personal presentation video",
       usage: "presentation",
-    },  
+    },
+    {
+      name: "lang",
+      desc: "Switch portfolio language (English / Spanish)",
+      usage: "lang <en|es>",
+    },
   ],
 };

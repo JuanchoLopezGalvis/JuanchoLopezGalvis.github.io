@@ -1,12 +1,17 @@
 ---
 import "../styles/global.css";
 import MatrixRain from "../components/MatrixRain.astro";
-import { PORTFOLIO_DATA } from "../data/portfolio";
+import { getPortfolio } from "../data/i18n";
+import { LANG_PATH, toLang } from "../i18n/ui";
 
 interface Props {
   title?: string;
   description?: string;
+  lang?: string;
 }
+
+const lang = toLang(Astro.props.lang);
+const PORTFOLIO_DATA = getPortfolio(lang);
 
 const {
   title = `${PORTFOLIO_DATA.developer.name} // TUI Portfolio`,
@@ -15,7 +20,7 @@ const {
 ---
 
 <!DOCTYPE html>
-<html lang="en" data-theme="green">
+<html lang={lang} data-theme="green">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -28,7 +33,14 @@ const {
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     <meta name="theme-color" content="#0a120b" />
+    <link rel="alternate" hreflang="en" href={LANG_PATH.en} />
+    <link rel="alternate" hreflang="es" href={LANG_PATH.es} />
 
+    <script is:inline>
+      if (location.pathname === "/" && localStorage.getItem("tui_lang") === "es") {
+        location.replace("/es/" + location.hash);
+      }
+    </script>
     <script>
       import { applyTheme } from "../config/themeConfig";
       const savedTheme = localStorage.getItem("tui_theme") || "green";

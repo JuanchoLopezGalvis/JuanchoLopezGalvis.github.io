@@ -1,7 +1,9 @@
 ---
-import { PORTFOLIO_DATA } from "../data/portfolio";
+import { getPortfolio } from "../data/i18n";
+import { ui } from "../i18n/ui";
 
-const { developer } = PORTFOLIO_DATA;
+const t = ui(Astro.props.lang);
+const { developer } = getPortfolio(Astro.props.lang);
 
 if (developer.palette && developer.palette.length > 8) {
   throw new Error(
@@ -16,7 +18,7 @@ if (developer.palette && developer.palette.length > 8) {
   <div
     class="absolute top-0 right-0 px-2 py-1 bg-[var(--border-color)] text-[var(--fg-dim)] text-[10px] uppercase font-bold tracking-widest"
   >
-    SYSTEM INFO v2.4
+    {t.systemInfo}
   </div>
 
   <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
@@ -63,7 +65,7 @@ if (developer.palette && developer.palette.length > 8) {
           <span class="text-[var(--fg-main)]">{developer.specs.Kernel}</span>
         </div>
         <div>
-          <span class="text-[var(--fg-bright)] font-bold">Uptime:</span>
+          <span class="text-[var(--fg-bright)] font-bold">{t.uptime}</span>
           <span class="text-[var(--fg-main)]">{developer.specs.Uptime}</span>
         </div>
         <div>
@@ -83,13 +85,13 @@ if (developer.palette && developer.palette.length > 8) {
           <span class="text-[var(--fg-main)]">{developer.specs.CPU}</span>
         </div>
         <div>
-          <span class="text-[var(--fg-bright)] font-bold">Memory:</span>
+          <span class="text-[var(--fg-bright)] font-bold">{t.memory}</span>
           <span class="text-[var(--fg-main)]">{developer.specs.Memory}</span>
         </div>
       </div>
 
       <div class="pt-3 flex items-center gap-1.5 flex-wrap">
-        <span class="text-[10px] text-[var(--fg-dim)] mr-2">PALETTE:</span>
+        <span class="text-[10px] text-[var(--fg-dim)] mr-2">{t.palette}</span>
         {(
           developer.palette || [
             "#0f0f0f",

@@ -1,19 +1,23 @@
 ---
-import { PORTFOLIO_DATA } from "../data/portfolio";
+import { getPortfolio } from "../data/i18n";
+import { toLang, ui } from "../i18n/ui";
+
+const lang = toLang(Astro.props.lang);
+const t = ui(lang);
+const PORTFOLIO_DATA = getPortfolio(lang);
 ---
 
 <div id="view-cli" class="flex flex-col flex-1 font-mono text-xs md:text-sm">
   <!-- Terminal Welcome Message & Banner -->
   <div class="mb-4 space-y-1.5 text-[var(--fg-main)]">
     <div class="text-[var(--accent)] font-bold">
-      WELCOME TO QUANTUM-TUI TERMINAL INTERFACE v5.3.0 (x86_64-apple-darwin)
+      {t.cliWelcome}
     </div>
     <div class="text-[var(--fg-dim)]">
-      Type <span class="text-[var(--fg-bright)] font-bold">help</span> to view available
-      commands, or click <span
+      {t.cliIntroBefore} <span class="text-[var(--fg-bright)] font-bold">help</span> {t.cliIntroMiddle} <span
         class="text-[var(--accent)] cursor-pointer hover:underline"
-        onclick="window.switchTuiMode('gui')">[#] GUI Dashboard</span
-      > for visual mode.
+        onclick="window.switchTuiMode('gui')">{t.guiMode}</span
+      > {t.cliIntroAfter}
     </div>
   </div>
 
@@ -31,7 +35,7 @@ import { PORTFOLIO_DATA } from "../data/portfolio";
         {PORTFOLIO_DATA.developer.status}
       </div>
       <div class="text-xs text-[var(--accent)] mt-1 font-bold">
-        Type 'about', 'skills', or 'collabs' to explore content.
+        {t.cliExplore}
       </div>
     </div>
   </div>
@@ -50,11 +54,11 @@ import { PORTFOLIO_DATA } from "../data/portfolio";
     <div class="relative flex-1 flex items-center">
       <input
         id="cli-input"
-        aria-label="Terminal Command Input"
+        aria-label={t.cliInputLabel}
         type="text"
         autocomplete="off"
         spellcheck="false"
-        placeholder="Type 'about', 'skills', or 'collabs'..."
+        placeholder={t.cliPlaceholder}
         class="w-full bg-transparent text-[var(--fg-bright)] font-mono focus:outline-none caret-[var(--accent)] py-1 text-xs md:text-sm"
       />
     </div>
@@ -62,7 +66,8 @@ import { PORTFOLIO_DATA } from "../data/portfolio";
 </div>
 
 <script>
-  import { PORTFOLIO_DATA } from "../data/portfolio";
+  import { getPortfolio, partnerTypeLabel } from "../data/i18n";
+  import { LANG_PATH, toLang, ui } from "../i18n/ui";
   import { SPOTIFY_CONFIG, getSpotifyActivity } from "../config/spotifyConfig";
   import {
     ALL_THEMES,
@@ -78,6 +83,10 @@ import { PORTFOLIO_DATA } from "../data/portfolio";
     playBeep,
     toggleSfx,
   } from "../utils/sound";
+
+  const LANG = toLang(document.documentElement.lang);
+  const t = ui(LANG);
+  const PORTFOLIO_DATA = getPortfolio(LANG);
 
   document.addEventListener("DOMContentLoaded", () => {
     const input = document.getElementById("cli-input") as HTMLInputElement;
@@ -114,7 +123,7 @@ import { PORTFOLIO_DATA } from "../data/portfolio";
           playBeep(600, 0.04);
         } else if (matches.length > 1) {
           appendOutput(
-            `<div class="text-[var(--fg-dim)]">Possible matches: ${matches.join("  ")}</div>`,
+            `<div class="text-[var(--fg-dim)]">${t.cliPossibleMatches} ${matches.join("  ")}</div>`,
           );
           playBeep(400, 0.04);
         }
@@ -192,7 +201,7 @@ import { PORTFOLIO_DATA } from "../data/portfolio";
             class="w-full rounded border border-[var(--border-color)]"
             src="${presentation.videoUrl}"
           >
-            Your browser does not support the video element.
+            ${t.noVideo}
           </video>
         </div>
       `);
@@ -204,6 +213,22 @@ import { PORTFOLIO_DATA } from "../data/portfolio";
       const args = parts.slice(1);
 
       switch (cmd) {
+        case "lang":
+        case "idioma": {
+          const target = (args[0] || "").toLowerCase();
+          if (target !== "en" && target !== "es") {
+            appendOutput(`<div class="text-yellow-400">${t.cliLangUsage}</div>`);
+            break;
+          }
+          playSuccessSound();
+          appendOutput(
+            `<div class="text-emerald-400 font-bold">${t.cliLangSwitching} ${target === "es" ? "Español" : "English"}...</div>`,
+          );
+          localStorage.setItem("tui_lang", target);
+          if (target !== LANG) setTimeout(() => location.assign(LANG_PATH[target]), 400);
+          break;
+        }
+
         case "presentation":
         case "intro":
         case "video":
@@ -241,7 +266,7 @@ import { PORTFOLIO_DATA } from "../data/portfolio";
           else if (args[0] === "contact.txt") renderContact();
           else
             appendOutput(
-              `<div class="text-yellow-400">Usage: cat <bio.txt | skills.sh | collabs.md | contact.txt></div>`,
+              `<div class="text-yellow-400">${escapeHtml(t.cliCatUsage)}</div>`,
             );
           break;
 
@@ -289,19 +314,19 @@ import { PORTFOLIO_DATA } from "../data/portfolio";
               if (selectEl) selectEl.value = matchedTheme.id;
               playSuccessSound();
               appendOutput(
-                `<div class="text-emerald-400 font-bold">Theme set to ${matchedTheme.emoji} [${matchedTheme.name.toUpperCase()}].</div>`,
+                `<div class="text-emerald-400 font-bold">${t.cliThemeSet} ${matchedTheme.emoji} [${matchedTheme.name.toUpperCase()}].</div>`,
               );
             } else {
               playErrorSound();
               const themeList = ALL_THEMES.map((t) => t.id).join(" | ");
               appendOutput(
-                `<div class="text-red-400">Invalid theme. Available options: ${themeList}</div>`,
+                `<div class="text-red-400">${t.cliThemeInvalid} ${themeList}</div>`,
               );
             }
           } else {
             const themeList = ALL_THEMES.map((t) => t.id).join(" | ");
             appendOutput(
-              `<div class="text-yellow-400">Usage: theme <${themeList}></div>`,
+              `<div class="text-yellow-400">${t.cliThemeUsage} &lt;${themeList}&gt;</div>`,
             );
           }
           break;
@@ -320,21 +345,21 @@ import { PORTFOLIO_DATA } from "../data/portfolio";
           };
           if (win.toggleMatrix) win.toggleMatrix(true);
           appendOutput(
-            `<div class="text-emerald-400 font-bold">Matrix rain canvas enabled. Press [ESC] to exit.</div>`,
+            `<div class="text-emerald-400 font-bold">${t.cliMatrixOn}</div>`,
           );
           break;
 
         case "crt":
           document.getElementById("toggle-crt-btn")?.click();
           appendOutput(
-            `<div class="text-cyan-400">Toggled CRT scanlines overlay.</div>`,
+            `<div class="text-cyan-400">${t.cliCrt}</div>`,
           );
           break;
 
         case "sfx":
           const enabled = toggleSfx();
           appendOutput(
-            `<div class="text-cyan-400">SFX Sound feedback: ${enabled ? "ENABLED 🔊" : "MUTED 🔇"}</div>`,
+            `<div class="text-cyan-400">${t.cliSfx} ${enabled ? t.cliSfxOn : t.cliSfxOff}</div>`,
           );
           break;
 
@@ -355,8 +380,8 @@ import { PORTFOLIO_DATA } from "../data/portfolio";
           playErrorSound();
           appendOutput(`
             <div class="text-red-400">
-              zsh: command not found: <span class="font-bold">${escapeHtml(cmd)}</span>. 
-              Type <span class="text-[var(--fg-bright)] underline cursor-pointer" onclick="document.getElementById('cli-input').value='help'; document.getElementById('cli-input').dispatchEvent(new KeyboardEvent('keydown', {key:'Enter'}));">help</span> for manual.
+              ${t.cliNotFound} <span class="font-bold">${escapeHtml(cmd)}</span>. 
+              ${t.cliNotFoundHelpBefore} <span class="text-[var(--fg-bright)] underline cursor-pointer" onclick="document.getElementById('cli-input').value='help'; document.getElementById('cli-input').dispatchEvent(new KeyboardEvent('keydown', {key:'Enter'}));">help</span> ${t.cliNotFoundHelpAfter}
             </div>
           `);
           break;
@@ -366,14 +391,14 @@ import { PORTFOLIO_DATA } from "../data/portfolio";
     function renderHelp() {
       let html = `
         <div class="border border-[var(--border-color)] bg-[var(--bg-card)] p-3 my-2 font-mono">
-          <div class="text-[var(--fg-bright)] font-bold border-b border-[var(--border-color)] pb-1 mb-2">AVAILABLE TERMINAL COMMANDS</div>
+          <div class="text-[var(--fg-bright)] font-bold border-b border-[var(--border-color)] pb-1 mb-2">${t.cliHelpTitle}</div>
           <div class="space-y-1.5 text-xs">
       `;
       PORTFOLIO_DATA.commands.forEach((c) => {
         html += `
           <div class="grid grid-cols-12 gap-2">
             <span class="col-span-3 text-[var(--accent)] font-bold">${c.name}</span>
-            <span class="col-span-9 text-[var(--fg-main)]">${c.desc} <span class="text-[var(--fg-dim)] text-[10px]">(${c.usage})</span></span>
+            <span class="col-span-9 text-[var(--fg-main)]">${c.desc} <span class="text-[var(--fg-dim)] text-[10px]">(${escapeHtml(c.usage)})</span></span>
           </div>
         `;
       });
@@ -385,15 +410,15 @@ import { PORTFOLIO_DATA } from "../data/portfolio";
       const { developer } = PORTFOLIO_DATA;
       appendOutput(`
         <div class="border border-[var(--border-color)] bg-[var(--bg-card)] p-4 my-2 font-mono text-xs space-y-2">
-          <div class="text-[var(--fg-bright)] font-bold text-sm border-b border-[var(--border-color)] pb-1">📄 ABOUT ME // ${developer.name}</div>
+          <div class="text-[var(--fg-bright)] font-bold text-sm border-b border-[var(--border-color)] pb-1">${t.cliAboutTitle} ${developer.name}</div>
           <p class="text-[var(--fg-main)] leading-relaxed">${developer.bio}</p>
           <div class="text-[var(--fg-dim)] italic">${developer.quote}</div>
           <div class="pt-2 flex flex-wrap gap-4 text-xs">
             <span>📍 ${developer.location}</span>
             <span>✉️ ${developer.email}</span>
           </div>
-          <div><span class="text-[var(--accent)] font-bold">Focus:</span> ${developer.focus}</div>
-          <div><span class="text-[var(--accent)] font-bold">Interests:</span> ${developer.interests.join(" · ")}</div>
+          <div><span class="text-[var(--accent)] font-bold">${t.cliFocus}</span> ${developer.focus}</div>
+          <div><span class="text-[var(--accent)] font-bold">${t.cliInterests}</span> ${developer.interests.join(" · ")}</div>
         </div>
       `);
     }
@@ -433,15 +458,16 @@ import { PORTFOLIO_DATA } from "../data/portfolio";
           <div class="border border-[var(--border-color)] bg-[var(--bg-card)] p-4 text-xs font-mono space-y-2 hover:border-[var(--border-active)] transition-colors">
             <div class="flex items-center justify-between border-b border-[var(--border-color)] pb-2">
               <span class="text-[var(--fg-bright)] font-bold text-sm">🤝 ${c.title}</span>
-              <span class="px-2 py-0.5 text-[10px] bg-[var(--border-color)] text-[var(--accent)] font-bold uppercase">${c.partnerType}</span>
+              <span class="px-2 py-0.5 text-[10px] bg-[var(--border-color)] text-[var(--accent)] font-bold uppercase">${partnerTypeLabel(c.partnerType, LANG)}</span>
             </div>
-            <div class="text-[var(--accent)] font-bold">Partner: <span class="text-[var(--fg-bright)]">${c.partner}</span> // Role: <span class="text-emerald-400">${c.role}</span></div>
+            <div class="text-[var(--accent)] font-bold">${t.cliPartner} <span class="text-[var(--fg-bright)]">${c.partner}</span> // ${t.cliRole} <span class="text-emerald-400">${c.role}</span></div>
             ${c.asciiLogo ? `<pre class="my-2 p-2 bg-[var(--bg-main)] text-[10px] text-[var(--fg-bright)] overflow-x-auto leading-tight select-none border border-[var(--border-color)] font-mono whitespace-pre">${c.asciiLogo}</pre>` : ""}
             <p class="text-[var(--fg-main)] leading-relaxed">${c.description}</p>
             <ul class="list-disc list-inside text-[var(--fg-dim)] space-y-0.5">
               ${c.contributions.map((cont) => `<li>${cont}</li>`).join("")}
             </ul>
-            ${c.team ? `<div><span class="text-[var(--accent)] font-bold">Team:</span> <span class="text-[var(--fg-main)]">${c.team.join(", ")}</span></div>` : ""}
+            ${c.team ? `<div><span class="text-[var(--accent)] font-bold">${t.cliTeam}</span> <span class="text-[var(--fg-main)]">${c.team.join(", ")}</span></div>` : ""}
+            ${c.link ? `<div><a href="${c.link}" target="_blank" rel="noopener noreferrer" class="text-[var(--accent)] font-bold hover:underline">${t.cliViewProject}</a></div>` : ""}
             ${(c.snippets || [])
               .map(
                 (sn) => `
@@ -491,14 +517,14 @@ import { PORTFOLIO_DATA } from "../data/portfolio";
         <div class="border border-[var(--border-color)] bg-[var(--bg-card)] p-3 my-2 font-mono text-xs space-y-2">
           <div class="text-[var(--fg-bright)] font-bold border-b border-[var(--border-color)] pb-1">${developer.alias}</div>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-            <div><span class="text-[var(--accent)] font-bold">Name:</span> ${developer.name}</div>
-            <div><span class="text-[var(--accent)] font-bold">Title:</span> ${developer.title}</div>
+            <div><span class="text-[var(--accent)] font-bold">${t.cliName}</span> ${developer.name}</div>
+            <div><span class="text-[var(--accent)] font-bold">${t.cliTitle}</span> ${developer.title}</div>
             <div><span class="text-[var(--accent)] font-bold">OS:</span> ${developer.specs.OS}</div>
             <div><span class="text-[var(--accent)] font-bold">Shell:</span> ${developer.specs.Shell}</div>
-            <div><span class="text-[var(--accent)] font-bold">Status:</span> ${developer.status}</div>
+            <div><span class="text-[var(--accent)] font-bold">${t.cliStatus}</span> ${developer.status}</div>
           </div>
           <div class="pt-1 flex items-center gap-1 flex-wrap">
-            <span class="text-[10px] text-[var(--fg-dim)] mr-1">PALETTE:</span>
+            <span class="text-[10px] text-[var(--fg-dim)] mr-1">${t.palette}</span>
             ${paletteHtml}
           </div>
         </div>
@@ -509,10 +535,10 @@ import { PORTFOLIO_DATA } from "../data/portfolio";
       const { developer } = PORTFOLIO_DATA;
       appendOutput(`
         <div class="border border-[var(--border-color)] bg-[var(--bg-card)] p-4 my-2 text-xs font-mono space-y-2">
-          <div class="text-[var(--fg-bright)] font-bold text-sm border-b border-[var(--border-color)] pb-1">✉️ CONTACT INFO</div>
+          <div class="text-[var(--fg-bright)] font-bold text-sm border-b border-[var(--border-color)] pb-1">${t.cliContactTitle}</div>
           <div><span class="text-[var(--accent)] font-bold">Email:</span> ${developer.email}</div>
           <div><span class="text-[var(--accent)] font-bold">GitHub:</span> ${developer.github}</div>
-          <div><span class="text-[var(--accent)] font-bold">Location:</span> ${developer.location}</div>
+          <div><span class="text-[var(--accent)] font-bold">${t.cliLocation}</span> ${developer.location}</div>
         </div>
       `);
     }
@@ -522,8 +548,8 @@ import { PORTFOLIO_DATA } from "../data/portfolio";
       appendOutput(`
         <div class="border border-[var(--border-color)] bg-[var(--bg-card)] p-4 my-2 font-mono text-xs space-y-3">
           <div class="text-[var(--accent)] font-bold border-b border-[var(--border-color)] pb-2 flex items-center justify-between">
-            <span>🔗 OFFICIAL SOCIAL & PROFILE LINKS</span>
-            <span class="text-[10px] text-[var(--fg-dim)]">[INTERACTIVE]</span>
+            <span>${t.cliLinksTitle}</span>
+            <span class="text-[10px] text-[var(--fg-dim)]">${t.cliInteractive}</span>
           </div>
 
           <div class="space-y-2 text-xs">

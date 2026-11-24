@@ -1,10 +1,14 @@
 ---
-import { PORTFOLIO_DATA } from "../data/portfolio";
+import { getPortfolio, partnerTypeLabel } from "../data/i18n";
+import { toLang, ui } from "../i18n/ui";
 import Neofetch from "./Neofetch.astro";
 import SpotifyWidget from "./SpotifyWidget.astro";
 import GamesWidget from "./GamesWidget.astro";
 
-const { developer, skills, collabs, presentation } = PORTFOLIO_DATA;
+const lang = toLang(Astro.props.lang);
+const t = ui(lang);
+const PORTFOLIO_DATA = getPortfolio(lang);
+const { developer, skills, collabs } = PORTFOLIO_DATA;
 ---
 
 <div
@@ -12,7 +16,7 @@ const { developer, skills, collabs, presentation } = PORTFOLIO_DATA;
   class="hidden flex flex-col space-y-6 font-mono text-xs md:text-sm"
 >
   <!-- Top Neofetch System Summary Card -->
-  <Neofetch />
+  <Neofetch lang={lang} />
 
   <!-- Main TUI Grid: Sidebar Directory Navigation + Main Panel -->
   <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
@@ -23,8 +27,8 @@ const { developer, skills, collabs, presentation } = PORTFOLIO_DATA;
       <div
         class="text-[var(--accent)] font-bold border-b border-[var(--border-color)] pb-2 flex items-center justify-between"
       >
-        <span>📁 EXPLORER</span>
-        <span class="text-[10px] text-[var(--fg-dim)]">CONTENTS</span>
+        <span>{t.explorer}</span>
+        <span class="text-[10px] text-[var(--fg-dim)]">{t.contents}</span>
       </div>
 
       <nav class="space-y-1 font-mono text-xs">
@@ -32,32 +36,31 @@ const { developer, skills, collabs, presentation } = PORTFOLIO_DATA;
           href="#gui-about"
           class="gui-nav-item flex items-center gap-2 p-1.5 hover:bg-[var(--border-color)] text-[var(--fg-bright)] font-bold transition-colors"
         >
-          <span class="text-yellow-400">📄</span> bio.txt (About Me)
+          <span class="text-yellow-400">📄</span> {t.navAbout}
         </a>
         <a        
           href="#gui-presentation"
           class="gui-nav-item flex items-center gap-2 p-1.5 hover:bg-[var(--border-color)] text-[var(--fg-bright)] transition-colors"
         >
-          <span class="text-pink-400">🎬</span> presentacion.mp4 (Video)
-
+          <span class="text-pink-400">🎬</span> {t.navPresentation}
         </a>
         <a
           href="#gui-skills"
           class="gui-nav-item flex items-center gap-2 p-1.5 hover:bg-[var(--border-color)] text-[var(--fg-bright)] transition-colors"
         >
-          <span class="text-emerald-400">⚙️</span> skills.sh (Skills)
+          <span class="text-emerald-400">⚙️</span> {t.navSkills}
         </a>
         <a
           href="#gui-collabs"
           class="gui-nav-item flex items-center gap-2 p-1.5 hover:bg-[var(--border-color)] text-[var(--fg-bright)] transition-colors"
         >
-          <span class="text-purple-400">🤝</span> collabs.md (Collabs)
+          <span class="text-purple-400">🤝</span> {t.navCollabs}
         </a>
         <a
           href="#gui-contact"
           class="gui-nav-item flex items-center gap-2 p-1.5 hover:bg-[var(--border-color)] text-[var(--fg-bright)] transition-colors"
         >
-          <span class="text-red-400">✉️</span> contact.txt (Contact)
+          <span class="text-red-400">✉️</span> {t.navContact}
         </a>
       </nav>
 
@@ -74,20 +77,20 @@ const { developer, skills, collabs, presentation } = PORTFOLIO_DATA;
         <div
           class="text-[var(--fg-dim)] font-bold uppercase tracking-wider text-[10px]"
         >
-          CONTENT SPEC
+          {t.contentSpec}
         </div>
         <div class="flex justify-between text-[var(--fg-main)]">
-          <span>Active Collabs:</span>
+          <span>{t.activeCollabs}</span>
           <span class="font-bold text-[var(--fg-bright)]">{collabs.length}</span
           >
         </div>
         <div class="flex justify-between text-[var(--fg-main)]">
-          <span>Skill Domains:</span>
+          <span>{t.skillDomains}</span>
           <span class="font-bold text-yellow-400">{skills.length}</span>
         </div>
         <div class="flex justify-between text-[var(--fg-main)]">
-          <span>Experience:</span>
-          <span class="font-bold text-emerald-400">6 Months</span>
+          <span>{t.experience}</span>
+          <span class="font-bold text-emerald-400">{t.experienceValue}</span>
         </div>
       </div>
 
@@ -99,7 +102,7 @@ const { developer, skills, collabs, presentation } = PORTFOLIO_DATA;
           rel="noopener noreferrer"
           class="w-full text-center block px-3 py-1.5 border border-[var(--border-color)] bg-[var(--bg-main)] hover:border-[var(--border-active)] text-[var(--fg-bright)] text-xs font-bold transition-colors"
         >
-          GitHub Profile ↗
+          {t.githubProfile}
         </a>
       </div>
     </aside>
@@ -117,9 +120,9 @@ const { developer, skills, collabs, presentation } = PORTFOLIO_DATA;
           <h2
             class="text-base font-bold text-[var(--fg-bright)] flex items-center gap-2"
           >
-            <span class="text-[var(--accent)]">></span> CAT BIO.TXT // ABOUT ME
+            <span class="text-[var(--accent)]">></span> {t.aboutHeading}
           </h2>
-          <span class="text-xs text-[var(--fg-dim)]">[READ-ONLY]</span>
+          <span class="text-xs text-[var(--fg-dim)]">{t.readOnly}</span>
         </div>
 
         <p class="text-[var(--fg-main)] leading-relaxed text-sm">
@@ -139,7 +142,7 @@ const { developer, skills, collabs, presentation } = PORTFOLIO_DATA;
             class="p-3 border border-[var(--border-color)] bg-[var(--bg-main)] space-y-1"
           >
             <span class="text-[10px] text-[var(--fg-dim)] uppercase font-bold"
-              >ENGINEERING FOCUS</span
+              >{t.engineeringFocus}</span
             >
             <div class="text-xs text-[var(--accent)] font-bold">
               {developer.focus}
@@ -149,7 +152,7 @@ const { developer, skills, collabs, presentation } = PORTFOLIO_DATA;
             class="p-3 border border-[var(--border-color)] bg-[var(--bg-main)] space-y-1"
           >
             <span class="text-[10px] text-[var(--fg-dim)] uppercase font-bold"
-              >INTERESTS</span
+              >{t.interests}</span
             >
             <div class="text-xs text-[var(--fg-bright)] font-bold">
               {developer.interests.join(" · ")}
@@ -159,7 +162,7 @@ const { developer, skills, collabs, presentation } = PORTFOLIO_DATA;
             class="p-3 border border-[var(--border-color)] bg-[var(--bg-main)] space-y-1"
           >
             <span class="text-[10px] text-[var(--fg-dim)] uppercase font-bold"
-              >LOCATION</span
+              >{t.location}</span
             >
             <div class="text-xs text-[var(--fg-bright)] font-bold">
               📍 {developer.location}
@@ -179,9 +182,9 @@ const { developer, skills, collabs, presentation } = PORTFOLIO_DATA;
           <h2
             class="text-base font-bold text-[var(--fg-bright)] flex items-center gap-2"
           >
-            <span class="text-[var(--accent)]">></span> PLAY PRESENTATION.MP4 // {PORTFOLIO_DATA.presentation.title.toUpperCase()}
+            <span class="text-[var(--accent)]">></span> {t.presentationHeading} // {PORTFOLIO_DATA.presentation.title.toUpperCase()}
           </h2>
-          <span class="text-xs text-[var(--fg-dim)]">[VIDEO]</span>
+          <span class="text-xs text-[var(--fg-dim)]">{t.videoTag}</span>
         </div>
 
         <p class="text-[var(--fg-main)] leading-relaxed text-sm">
@@ -193,7 +196,7 @@ const { developer, skills, collabs, presentation } = PORTFOLIO_DATA;
           class="w-full rounded border border-[var(--border-color)]"
           src={PORTFOLIO_DATA.presentation.videoUrl}
         >
-          Your browser does not support the video element.
+          {t.noVideo}
         </video>
       </section>
 
@@ -208,9 +211,9 @@ const { developer, skills, collabs, presentation } = PORTFOLIO_DATA;
           <h2
             class="text-base font-bold text-[var(--fg-bright)] flex items-center gap-2"
           >
-            <span class="text-[var(--accent)]">></span> ./SKILLS.SH // TECHNICAL PROFICIENCY
+            <span class="text-[var(--accent)]">></span> {t.skillsHeading}
           </h2>
-          <span class="text-xs text-[var(--fg-dim)]">[PROFICIENCY METRICS]</span
+          <span class="text-xs text-[var(--fg-dim)]">{t.skillsTag}</span
           >
         </div>
 
@@ -273,9 +276,9 @@ const { developer, skills, collabs, presentation } = PORTFOLIO_DATA;
           <h2
             class="text-base font-bold text-[var(--fg-bright)] flex items-center gap-2"
           >
-            <span class="text-[var(--accent)]">></span> CAT COLLABS.MD // PROJECTS &amp; COLLABORATIONS
+            <span class="text-[var(--accent)]">></span> {t.collabsHeading}
           </h2>
-          <span class="text-xs text-[var(--fg-dim)]">[PROJECTS]</span>
+          <span class="text-xs text-[var(--fg-dim)]">{t.collabsTag}</span>
         </div>
 
         <div class="space-y-4">
@@ -287,7 +290,7 @@ const { developer, skills, collabs, presentation } = PORTFOLIO_DATA;
                     <span>🤝</span> {item.title}
                   </h3>
                   <span class="text-[10px] px-2 py-0.5 border border-[var(--border-color)] text-[var(--accent)] uppercase font-bold">
-                    {item.partnerType}
+                    {partnerTypeLabel(item.partnerType, lang)}
                   </span>
                 </div>
 
@@ -297,13 +300,13 @@ const { developer, skills, collabs, presentation } = PORTFOLIO_DATA;
 
                 <div class="text-xs">
                   <span class="text-[var(--accent)] font-bold">
-                    Org:
+                    {t.org}
                   </span>{" "}
                   <span class="text-[var(--fg-bright)] font-bold">
                     {item.partner}
                   </span>
                   <span class="mx-2 text-[var(--fg-dim)]">|</span>
-                  <span class="text-[var(--accent)] font-bold">Role:</span>{" "}
+                  <span class="text-[var(--accent)] font-bold">{t.role}</span>{" "}
                   <span class="text-emerald-400 font-bold">{item.role}</span>
                   <span class="mx-2 text-[var(--fg-dim)]">|</span>
                   <span class="text-[var(--fg-dim)]">{item.period}</span>
@@ -315,7 +318,7 @@ const { developer, skills, collabs, presentation } = PORTFOLIO_DATA;
 
                 <div class="space-y-1 pt-1">
                   <span class="text-[10px] text-[var(--fg-dim)] uppercase font-bold">
-                    Key Contributions:
+                    {t.keyContributions}
                   </span>
                   <ul class="list-disc list-inside text-xs text-[var(--fg-main)] space-y-0.5">
                     {item.contributions.map((c) => (
@@ -326,7 +329,7 @@ const { developer, skills, collabs, presentation } = PORTFOLIO_DATA;
 
                 {item.team && (
                   <div class="text-xs">
-                    <span class="text-[var(--accent)] font-bold">Team:</span>{" "}
+                    <span class="text-[var(--accent)] font-bold">{t.team}</span>{" "}
                     <span class="text-[var(--fg-main)]">{item.team.join(", ")}</span>
                   </div>
                 )}
@@ -334,7 +337,7 @@ const { developer, skills, collabs, presentation } = PORTFOLIO_DATA;
                 {item.snippets && item.snippets.length > 0 && (
                   <div class="space-y-2 pt-1">
                     <span class="text-[10px] text-[var(--fg-dim)] uppercase font-bold">
-                      Code Snippets:
+                      {t.codeSnippets}
                     </span>
                     {item.snippets.map((sn) => (
                       <details class="border border-[var(--border-color)] bg-[var(--bg-card)]">
@@ -364,7 +367,7 @@ const { developer, skills, collabs, presentation } = PORTFOLIO_DATA;
                       rel="noopener noreferrer"
                       class="text-xs text-[var(--accent)] hover:underline font-bold"
                     >
-                      View Project ↗
+                      {t.viewProject}
                     </a>
                   )}
                 </div>
@@ -385,9 +388,9 @@ const { developer, skills, collabs, presentation } = PORTFOLIO_DATA;
           <h2
             class="text-base font-bold text-[var(--fg-bright)] flex items-center gap-2"
           >
-            <span class="text-[var(--accent)]">></span> TRANSMIT MAIL // CONTACT
+            <span class="text-[var(--accent)]">></span> {t.contactHeading}
           </h2>
-          <span class="text-xs text-[var(--fg-dim)]">[INQUIRIES]</span>
+          <span class="text-xs text-[var(--fg-dim)]">{t.contactTag}</span>
         </div>
 
         <form
@@ -400,14 +403,14 @@ const { developer, skills, collabs, presentation } = PORTFOLIO_DATA;
               <label
                 for="contact-name"
                 class="text-xs text-[var(--fg-bright)] font-bold block"
-                >NAME:</label
+                >{t.formName}</label
               >
               <input
                 id="contact-name"
                 name="name"
                 type="text"
                 required
-                placeholder="e.g. Linus Torvalds"
+                placeholder={t.formNamePlaceholder}
                 class="w-full bg-[var(--bg-main)] text-[var(--fg-bright)] border border-[var(--border-color)] focus:border-[var(--border-active)] p-2 text-xs font-mono focus:outline-none"
               />
             </div>
@@ -415,7 +418,7 @@ const { developer, skills, collabs, presentation } = PORTFOLIO_DATA;
               <label
                 for="contact-email"
                 class="text-xs text-[var(--fg-bright)] font-bold block"
-                >EMAIL:</label
+                >{t.formEmail}</label
               >
               <input
                 id="contact-email"
@@ -432,14 +435,14 @@ const { developer, skills, collabs, presentation } = PORTFOLIO_DATA;
             <label
               for="contact-message"
               class="text-xs text-[var(--fg-bright)] font-bold block"
-              >MESSAGE / COLLAB PROPOSAL:</label
+              >{t.formMessage}</label
             >
             <textarea
               id="contact-message"
               name="message"
               required
               rows="4"
-              placeholder="Enter your message or collaboration inquiry..."
+              placeholder={t.formMessagePlaceholder}
               class="w-full bg-[var(--bg-main)] text-[var(--fg-bright)] border border-[var(--border-color)] focus:border-[var(--border-active)] p-2 text-xs font-mono focus:outline-none resize-none"
             ></textarea>
           </div>
@@ -453,7 +456,7 @@ const { developer, skills, collabs, presentation } = PORTFOLIO_DATA;
               type="submit"
               class="px-5 py-2 border border-[var(--border-active)] bg-[var(--border-color)] hover:bg-[var(--border-active)] text-[var(--fg-bright)] font-bold text-xs cursor-pointer transition-colors ml-auto"
             >
-              <span id="btn-text">SEND PAYLOAD [ENTER]</span>
+              <span id="btn-text">{t.formSend}</span>
             </button>
           </div>
         </form>
@@ -466,8 +469,10 @@ const { developer, skills, collabs, presentation } = PORTFOLIO_DATA;
   import confetti from "canvas-confetti";
   import { playSuccessSound } from "../utils/sound";
   import { PORTFOLIO_DATA } from "../data/portfolio";
+  import { ui } from "../i18n/ui";
 
   document.addEventListener("DOMContentLoaded", () => {
+    const t = ui(document.documentElement.lang);
     const form = document.getElementById("contact-form") as HTMLFormElement;
     const statusMsg = document.getElementById("form-status");
     const submitBtn = document.getElementById(
@@ -500,10 +505,10 @@ const { developer, skills, collabs, presentation } = PORTFOLIO_DATA;
 
       // Loading state
       if (submitBtn) submitBtn.disabled = true;
-      if (btnText) btnText.textContent = "TRANSMITTING...";
+      if (btnText) btnText.textContent = t.formSending;
       if (statusMsg) {
         statusMsg.className = "text-xs font-bold text-yellow-400 block";
-        statusMsg.textContent = "⏳ Encrypting & dispatching email payload...";
+        statusMsg.textContent = t.formStatusSending;
       }
 
       try {
@@ -519,7 +524,7 @@ const { developer, skills, collabs, presentation } = PORTFOLIO_DATA;
               name,
               email,
               message,
-              _subject: `Portfolio Contact from ${name}`,
+              _subject: `${t.formSubject} ${name}`,
               _captcha: "false",
             }),
           },
@@ -537,8 +542,7 @@ const { developer, skills, collabs, presentation } = PORTFOLIO_DATA;
 
           if (statusMsg) {
             statusMsg.className = "text-xs font-bold text-emerald-400 block";
-            statusMsg.textContent =
-              "✓ Message payload successfully transmitted!";
+            statusMsg.textContent = t.formStatusOk;
             setTimeout(() => {
               statusMsg.className = "text-xs font-bold hidden";
               statusMsg.textContent = "";
@@ -551,12 +555,11 @@ const { developer, skills, collabs, presentation } = PORTFOLIO_DATA;
       } catch (err) {
         if (statusMsg) {
           statusMsg.className = "text-xs font-bold text-rose-400 block";
-          statusMsg.textContent =
-            "✖ Transmission failed. Please try again later.";
+          statusMsg.textContent = t.formStatusError;
         }
       } finally {
         if (submitBtn) submitBtn.disabled = false;
-        if (btnText) btnText.textContent = "SEND PAYLOAD [ENTER]";
+        if (btnText) btnText.textContent = t.formSend;
       }
     });
   });

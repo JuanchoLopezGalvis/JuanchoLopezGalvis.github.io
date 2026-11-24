@@ -1,0 +1,27 @@
+---
+import Layout from '../layouts/Layout.astro';
+import TerminalWindow from './TerminalWindow.astro';
+import MobileNotice from './MobileNotice.astro';
+import CLI from './CLI.astro';
+import GUIView from './GUIView.astro';
+import { toLang, ui } from '../i18n/ui';
+
+interface Props {
+  lang: string;
+}
+
+const lang = toLang(Astro.props.lang);
+---
+
+<Layout title={ui(lang).pageTitle} lang={lang}>
+  <TerminalWindow lang={lang}>
+    <!-- Mobile Notice Banner -->
+    <MobileNotice lang={lang} />
+
+    <!-- CLI Mode View -->
+    <CLI lang={lang} />
+
+    <!-- GUI Visual Dashboard Mode View -->
+    <GUIView lang={lang} />
+  </TerminalWindow>
+</Layout>
